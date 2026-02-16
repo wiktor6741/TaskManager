@@ -1,4 +1,4 @@
-package DAO;
+package dao;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;

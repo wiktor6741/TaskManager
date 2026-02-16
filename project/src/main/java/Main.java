@@ -1,4 +1,4 @@
-import DAO.DatabaseManager;
+import dao.DatabaseManager;
 
 public class Main {
     static void main() {
