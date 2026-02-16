@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS Tasks (
                                      CategoryID INTEGER NOT NULL,
                                      TaskName TEXT NOT NULL,
                                      Description TEXT NOT NULL,
-                                     ExpectedHoursNeeded REAL,
+                                     ExpectedDuration TEXT,
                                      GoalEndTime TEXT,      -- ISO 8601: 2026-02-14T18:30
                                      Deadline TEXT,         -- ISO 8601
 
