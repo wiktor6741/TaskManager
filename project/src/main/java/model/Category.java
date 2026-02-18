@@ -1,13 +1,10 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class Category {
     private final int id;
     private String name;
     private String description;
-    private final List<Task> tasks = new ArrayList<>();
 
     public Category(int id, String name, String description){
         this.id = id;
@@ -33,18 +30,6 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void addTask(Task task){
-        tasks.add(task);
-    }
-
-    public void removeTask(Task task){
-        tasks.remove(task);
     }
 
     @Override

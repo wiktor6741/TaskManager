@@ -44,9 +44,9 @@ CREATE TABLE IF NOT EXISTS RoutineTimes (
 
 CREATE TABLE IF NOT EXISTS Tasks (
                                      TaskID INTEGER PRIMARY KEY,
-                                     CategoryID INTEGER NOT NULL,
+                                     CategoryID INTEGER,
                                      TaskName TEXT NOT NULL,
-                                     Description TEXT NOT NULL,
+                                     Description TEXT,
                                      ExpectedDuration TEXT,
                                      GoalEndTime TEXT,      -- ISO 8601: 2026-02-14T18:30
                                      Deadline TEXT,         -- ISO 8601

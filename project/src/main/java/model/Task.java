@@ -4,30 +4,28 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Task {
-    private final int id;
-    private Category category = null;
+    private int id;
+    private Integer categoryID = null;
     private String name;
     private String description;
     private Duration expectedDuration;
     private LocalDateTime goalEndTime;
     private LocalDateTime deadline;
 
-    private Task(int id, String name, String description, Duration expectedDuration,
-                 LocalDateTime goalEndTime, LocalDateTime deadline){
-        this.id = id;
+    public Task(String name) {
         this.name = name;
-        this.description = description;
-        this.expectedDuration = expectedDuration;
-        this.goalEndTime = goalEndTime;
-        this.deadline = deadline;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setId(int id){
+        this.id = id;
     }
 
-    public Category getCategory() {
-        return category;
+    public void setCategoryID(Integer categoryID) {
+        this.categoryID = categoryID;
+    }
+
+    public Integer getCategoryID() {
+        return categoryID;
     }
 
     public int getId() {
@@ -72,5 +70,15 @@ public class Task {
 
     public LocalDateTime getDeadline() {
         return deadline;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
