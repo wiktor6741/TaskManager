@@ -15,38 +15,51 @@ public class TaskDAO {
         this.conn = conn;
     }
 
-    public List<Task> getAllTasks(){
-        String sql = "SELECT * FROM Tasks";
+
+    private List<Task> getQueryTasks(String sql, Object... params) {
         List<Task> tasks = new ArrayList<>();
 
-        try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                Task task = new Task(rs.getString("TaskName"));
-                task.setId(rs.getInt("TaskID"));
-                Integer categoryId = rs.getInt("CategoryID");
-                if (rs.wasNull()) {
-                    categoryId = null;  // lub zostawiasz Integer = null
-                }
-                task.setCategoryID(categoryId);
-                task.setDescription(rs.getString("Description"));
-                String durationString = rs.getString("ExpectedDuration");
-                String goalETString = rs.getString("GoalEndTime");
-                String deadlineString = rs.getString("Deadline");
-                if (durationString != null){
-                    task.setExpectedDuration(Duration.parse(durationString));
-                }
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
-                if (goalETString != null){
-                    task.setGoalEndTime(LocalDateTime.parse(goalETString));
-                }
-
-                if (deadlineString != null){
-                    task.setGoalEndTime(LocalDateTime.parse(deadlineString));
-                }
-
-                tasks.add(task);
+            for (int i = 0; i < params.length; i++) {
+                ps.setObject(i + 1, params[i]);
             }
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    Task task = new Task(rs.getString("TaskName"));
+
+                    task.setId(rs.getInt("TaskID"));
+
+                    Integer categoryId = rs.getInt("CategoryID");
+                    if (rs.wasNull()) {
+                        categoryId = null;
+                    }
+                    task.setCategoryID(categoryId);
+
+                    task.setDescription(rs.getString("Description"));
+
+                    String durationString = rs.getString("ExpectedDuration");
+                    String goalETString = rs.getString("GoalEndTime");
+                    String deadlineString = rs.getString("Deadline");
+
+                    if (durationString != null) {
+                        task.setExpectedDuration(Duration.parse(durationString));
+                    }
+
+                    if (goalETString != null) {
+                        task.setGoalEndTime(LocalDateTime.parse(goalETString));
+                    }
+
+                    if (deadlineString != null) {
+                        task.setDeadline(LocalDateTime.parse(deadlineString)); // TU poprawiłem błąd
+                    }
+
+                    tasks.add(task);
+                }
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -54,8 +67,13 @@ public class TaskDAO {
         return tasks;
     }
 
-    public List<Task> getCategoryTasks(Integer Category){
-        String sql
+    public List<Task> getAllTasks(){
+        return getQueryTasks("SELECT * FROM Tasks");
+    }
+
+    public List<Task> getCategoryTasks(Integer CategoryID){
+        return getQueryTasks("SELECT * FROM Tasks WHERE CategoryID = ?",
+                CategoryID);
     }
 
     public void addTask(Task task){
@@ -130,7 +148,5 @@ public class TaskDAO {
             throw new RuntimeException(e);
         }
     }
-
-
 }
 
