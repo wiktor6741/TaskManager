@@ -2,14 +2,12 @@ package model;
 
 
 public class Category {
-    private final int id;
+    private int id;
     private String name;
     private String description;
 
-    public Category(int id, String name, String description){
-        this.id = id;
+    public Category(String name){
         this.name = name;
-        this.description = description;
     }
 
     public int getId() {
@@ -40,5 +38,9 @@ public class Category {
     @Override
     public String toString() {
         return name;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

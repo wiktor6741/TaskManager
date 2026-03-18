@@ -97,7 +97,13 @@ public class TaskDAO {
 
             ps.executeUpdate();
 
-        } catch (SQLException e) {
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    task.setId(rs.getInt(1));
+                }
+            }
+
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -130,7 +136,6 @@ public class TaskDAO {
                 WHERE TaskID = ?""";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)){
-            System.out.println(task.getCategoryID());
             if (task.getCategoryID() != null) {
                 ps.setInt(1, task.getCategoryID());
             } else {
@@ -144,7 +149,16 @@ public class TaskDAO {
             ps.setInt(7, task.getId());
 
             ps.executeUpdate();
-        } catch (SQLException e){
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void clear(){
+        String sql = "DELETE FROM Tasks";
+        try (Statement stmt = conn.createStatement()){
+            stmt.executeUpdate(sql);
+        }catch (Exception e){
             throw new RuntimeException(e);
         }
     }

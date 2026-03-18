@@ -3,7 +3,8 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS Categories (
                                           CategoryID INTEGER PRIMARY KEY,
-                                          CategoryName TEXT NOT NULL UNIQUE
+                                          CategoryName TEXT NOT NULL UNIQUE,
+                                          Description TEXT
 );
 
 
@@ -45,7 +46,7 @@ CREATE TABLE IF NOT EXISTS RoutineTimes (
 CREATE TABLE IF NOT EXISTS Tasks (
                                      TaskID INTEGER PRIMARY KEY,
                                      CategoryID INTEGER,
-                                     TaskName TEXT NOT NULL,
+                                     TaskName TEXT NOT NULL UNIQUE,
                                      Description TEXT,
                                      ExpectedDuration TEXT,
                                      GoalEndTime TEXT,      -- ISO 8601: 2026-02-14T18:30
