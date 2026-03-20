@@ -53,7 +53,7 @@ public class TaskDAO {
                     }
 
                     if (deadlineString != null) {
-                        task.setDeadline(LocalDateTime.parse(deadlineString)); // TU poprawiłem błąd
+                        task.setDeadline(LocalDateTime.parse(deadlineString));
                     }
 
                     tasks.add(task);

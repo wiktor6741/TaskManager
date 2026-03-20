@@ -5,12 +5,13 @@ import java.time.LocalDateTime;
 
 public class Task {
     private int id;
-    private Integer categoryID = null;
+    private Integer categoryID;
     private String name;
     private String description;
     private Duration expectedDuration;
     private LocalDateTime goalEndTime;
     private LocalDateTime deadline;
+    private Integer priority;
 
     public Task(String name) {
         this.name = name;
@@ -70,6 +71,14 @@ public class Task {
 
     public LocalDateTime getDeadline() {
         return deadline;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public Integer getPriority() {
+        return priority;
     }
 
     @Override
