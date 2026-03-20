@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS Tasks (
                                      ExpectedDuration TEXT,
                                      GoalEndTime TEXT,      -- ISO 8601: 2026-02-14T18:30
                                      Deadline TEXT,         -- ISO 8601
+                                     Priority INTEGER,
 
                                      FOREIGN KEY (CategoryID)
                                          REFERENCES Categories(CategoryID)

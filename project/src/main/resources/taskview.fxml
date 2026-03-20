@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane>
+    <right>
+        <VBox>
+            <Label text="elo"/>
+        </VBox>
+    </right>
+</BorderPane>
