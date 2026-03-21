@@ -1,0 +1,24 @@
+.label {
+    -fx-font-family: "Arial";
+    -fx-font-size: 40px;
+    -fx-text-fill: #bfbfbd;
+}
+
+.scroll-pane {
+    -fx-background-color: #a3a37c
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+BorderPane {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e0e0d1, #c4c49d);
+}
+
+HBox{
+    -fx-background-color: #808078;
+}
+
+.task-box {
+    -fx-background-color: #808078;
+}

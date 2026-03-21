@@ -6,6 +6,7 @@ import model.Task;
 
 import java.sql.Connection;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Main {
@@ -29,6 +30,8 @@ public class Main {
 
     public void taskAdditions(){
         Task task1 = new Task("Task1");
+        task1.setPriority(4);
+        task1.setDeadline(LocalDateTime.parse("2026-04-23T22:00"));
         taskDAO.addTask(task1);
 
     }
@@ -85,3 +88,4 @@ public class Main {
 
 
 }
+

@@ -14,7 +14,7 @@ public class TaskManager {
     private List<Category> categories;
     private final TaskDAO taskDAO;
     private final CategoryDAO categoryDAO;
-    private Category currentViewedCategory = null;
+    private Category currentViewedCategory;
 
     public TaskManager(Connection conn) {
         this.taskDAO = new TaskDAO(conn);
@@ -74,5 +74,9 @@ public class TaskManager {
         tasks.sort(
                 Comparator.comparing(Task::getPriority, Comparator.nullsLast(Integer::compareTo))
         );
+    }
+
+    public List<Task> getTasks(){
+        return tasks;
     }
 }
