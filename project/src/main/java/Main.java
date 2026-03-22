@@ -29,11 +29,13 @@ public class Main {
 
 
     public void taskAdditions(){
-        Task task1 = new Task("Task1");
-        task1.setPriority(4);
-        task1.setDeadline(LocalDateTime.parse("2026-04-23T22:00"));
-        taskDAO.addTask(task1);
+        for (int i = 0; i < 8; i++) {
+            Task task1 = new Task("Task" + Integer.toString(i));
+            task1.setPriority(4);
+            task1.setDeadline(LocalDateTime.parse("2026-04-23T22:00"));
+            taskDAO.addTask(task1);
 
+        }
     }
 
     public void categoryAdditions(){

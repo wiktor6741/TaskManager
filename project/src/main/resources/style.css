@@ -1,24 +1,46 @@
 .label {
-    -fx-font-family: "Arial";
-    -fx-font-size: 40px;
-    -fx-text-fill: #bfbfbd;
+    -fx-font-family: "Consolas", "Courier New", monospace; /* czcionka monospaced */
+    -fx-font-size: 16px;                                  /* rozmiar czytelny */
+    -fx-text-fill: #e0e0e0;                               /* jasny kolor tekstu */
+    -fx-background-color: #2b2b2b;                        /* ciemne tło jak w IDE */
+    -fx-padding: 5 10 5 10;                               /* trochę odstępu */
+    -fx-background-radius: 4px;                            /* lekko zaokrąglone rogi */
 }
 
 .scroll-pane {
-    -fx-background-color: #a3a37c
+    -fx-background-color: #2d3138;
 }
 
 .scroll-pane > .viewport {
     -fx-background-color: transparent;
 }
 BorderPane {
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e0e0d1, #c4c49d);
-}
-
-HBox{
-    -fx-background-color: #808078;
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #313740, #6a6e75);
 }
 
 .task-box {
-    -fx-background-color: #808078;
+    -fx-background-color: #2d3138;
+    -fx-padding: 10;
+    -fx-border-radius: 5;
+    -fx-spacing: 10; /* HBox spacing */
+    -fx-alignment: center-left;
 }
+
+.task-box .task-name {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.left-pane {
+    -fx-padding: 10;
+}
+
+.task-info-label {
+    -fx-background-color: transparent;
+    -fx-font-family: "Consolas", "Courier New", monospace; /* czcionka monospaced */
+    -fx-font-size: 16px;                                  /* rozmiar czytelny */
+    -fx-text-fill: #e0e0e0;                               /* jasny kolor tekstu */
+    -fx-padding: 5 10 5 10;                               /* trochę odstępu */
+    -fx-background-radius: 4px;                            /* lekko zaokrąglone rogi */
+}
+

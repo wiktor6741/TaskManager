@@ -9,6 +9,7 @@ import model.Task;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.function.Consumer;
 
 import static java.awt.Color.red;
 
@@ -16,17 +17,20 @@ public class TaskBox extends HBox {
 
     private final Task task; // referencja do taska
 
+    private Consumer<Task> onClick;
+
+    private boolean selected = false;
+
     public TaskBox(Task task) {
         this.task = task;
 
         setAlignment(Pos.CENTER_LEFT);
 
 
-        setStyle("-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-radius: 5;");
-        setSpacing(10);
+        getStyleClass().add("task-box");
 
         Label nameLabel = new Label(task.getName());
-        nameLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        nameLabel.getStyleClass().add("task-name");
         getChildren().add(nameLabel);
 
         if (task.getDeadline() != null) {
@@ -38,10 +42,14 @@ public class TaskBox extends HBox {
             getChildren().add(importanceIndicator);
         }
 
-        addEventHandler(MouseEvent.MOUSE_ENTERED, e -> setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10; -fx-border-radius: 5;"));
-        addEventHandler(MouseEvent.MOUSE_EXITED, e -> setStyle("-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-radius: 5;"));
-    }
+        addEventHandler(MouseEvent.MOUSE_ENTERED, e -> setStyle("-fx-background-color: #1b1e24; -fx-padding: 10; -fx-border-radius: 5;"));
 
+        addEventHandler(MouseEvent.MOUSE_EXITED, e -> { if (!selected) {
+            setStyle("-fx-background-color: #2d3138; -fx-padding: 10; -fx-border-radius: 5;");
+        }});
+
+        setOnMouseClicked(e -> { if (onClick != null) { onClick.accept(task); } });
+    }
     private Color getClockColor() {
         LocalDateTime deadline = task.getDeadline();
         Duration timeLeft = Duration.between(LocalDateTime.now(), deadline);
@@ -59,7 +67,23 @@ public class TaskBox extends HBox {
         return Color.GREEN;
     }
 
+    public void setOnClick(Consumer<Task> onClick) {
+        this.onClick = onClick;
+    }
+
     public Task getTask() {
         return task;
+    }
+
+    public void setSelected(boolean selected){
+
+        this.selected = selected;
+        if (!selected){
+            setStyle("-fx-background-color: #2d3138; -fx-padding: 10; -fx-border-radius: 5;");
+        }
+        else {
+            System.out.println("Selected box for task: " + task.getName());
+            setStyle("-fx-background-color: #1b1e24; -fx-padding: 10; -fx-border-radius: 5;");
+        }
     }
 }

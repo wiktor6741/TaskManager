@@ -5,13 +5,11 @@ import dao.TaskDAO;
 
 import java.sql.Connection;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class TaskManager {
     private List<Task> tasks;
-    private List<Category> categories;
+    private final Map<Integer, Category> categories = new HashMap<>();
     private final TaskDAO taskDAO;
     private final CategoryDAO categoryDAO;
     private Category currentViewedCategory;
@@ -20,7 +18,13 @@ public class TaskManager {
         this.taskDAO = new TaskDAO(conn);
         this.categoryDAO = new CategoryDAO(conn);
         tasks = taskDAO.getAllTasks();
-        categories = categoryDAO.getAllCategories();
+        for (Category category : categoryDAO.getAllCategories()){
+            categories.put(category.getId(), category);
+        }
+    }
+
+    public Category getTaskCategory(Task task){
+        return categories.get(task.getCategoryID());
     }
 
     public void toggleCategory(int index) {
@@ -48,7 +52,7 @@ public class TaskManager {
 
     public void addCategory(Category category) {
         categoryDAO.addCategory(category);
-        categories.add(category);
+        categories.put(category.getId(), category);
     }
 
     public void deleteCategory(Category category){

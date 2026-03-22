@@ -15,4 +15,26 @@
             </content>
         </ScrollPane>
     </right>
+    <left>
+        <VBox fx:id="leftPane" styleClass="left-pane">
+            <HBox fx:id="nameBox" styleClass="task-box">
+                <Label fx:id="nameLabel" style="-fx-font-size: 25px"/>
+            </HBox>
+            <HBox fx:id="categoryBox" styleClass="task-box">
+                <Label text="Category:"/>
+                <Label fx:id="categoryLabel" styleClass="task-info-label"/>
+            </HBox>
+            <HBox fx:id="priorityBox" styleClass="task-box">
+                <Label text="Priority:"/>
+            </HBox>
+            <HBox fx:id="deadlineBox" styleClass="task-box">
+                <Label text="Deadline:"/>
+                <Label fx:id="deadlineLabel" styleClass="task-info-label"/>
+            </HBox>
+            <HBox fx:id="expectedDurationBox" styleClass="task-box">
+                <Label text="Expected Duration:"/>
+                <Label fx:id="durationLabel" styleClass="task-info-label"/>
+            </HBox>
+        </VBox>
+    </left>
 </BorderPane>
