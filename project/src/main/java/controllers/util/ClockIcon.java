@@ -43,3 +43,4 @@ public class ClockIcon extends Group {
         shortHand.setRotate(shortAngle);
     }
 }
+

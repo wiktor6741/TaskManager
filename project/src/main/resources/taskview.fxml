@@ -5,10 +5,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import controllers.util.ImportanceSelector?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.TaskViewController">
     <right>
-        <ScrollPane fx:id="taskScroll" fitToWidth="true" prefWidth="500">
+        <ScrollPane fx:id="taskScroll" fitToWidth="true" prefWidth="800">
             <content>
                 <VBox fx:id="taskVBox">
                 </VBox>
@@ -19,21 +25,48 @@
         <VBox fx:id="leftPane" styleClass="left-pane">
             <HBox fx:id="nameBox" styleClass="task-box">
                 <Label fx:id="nameLabel" style="-fx-font-size: 25px"/>
+                <TextField fx:id="nameTextField" style="-fx-font-size: 25px"/>
             </HBox>
             <HBox fx:id="categoryBox" styleClass="task-box">
-                <Label text="Category:"/>
+                <Label text="Category"/>
+                <Region HBox.hgrow="ALWAYS"/>
                 <Label fx:id="categoryLabel" styleClass="task-info-label"/>
+                <ComboBox promptText="Category" fx:id="categoryComboBox"/>
             </HBox>
             <HBox fx:id="priorityBox" styleClass="task-box">
-                <Label text="Priority:"/>
+                <Label text="Priority"/>
+                <Region HBox.hgrow="ALWAYS"/>
+            </HBox>
+            <HBox fx:id="goalTimeBox" styleClass="task-box">
+                <Label text="Goal finish time"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="goalTimeLabel" styleClass="task-info-label"/>
+                <DatePicker fx:id="goalTimeDatePicker"/>
+                <ComboBox fx:id="goalHourBox" promptText="HH"/>
+                <ComboBox fx:id="goalMinuteBox" promptText="mm"/>
             </HBox>
             <HBox fx:id="deadlineBox" styleClass="task-box">
-                <Label text="Deadline:"/>
+                <Label text="Deadline"/>
+                <Region HBox.hgrow="ALWAYS"/>
                 <Label fx:id="deadlineLabel" styleClass="task-info-label"/>
+                <DatePicker fx:id="deadlineDatePicker"/>
+                <ComboBox fx:id="deadlineHourBox" promptText="HH"/>
+                <ComboBox fx:id="deadlineMinuteBox" promptText="mm"/>
             </HBox>
             <HBox fx:id="expectedDurationBox" styleClass="task-box">
-                <Label text="Expected Duration:"/>
+                <Label text="Expected Duration"/>
+                <Region HBox.hgrow="ALWAYS"/>
                 <Label fx:id="durationLabel" styleClass="task-info-label"/>
+                <Label fx:id="hourSignLabel" styleClass="task-info-label" text="hours:"/>
+                <TextField fx:id="durationHourField" prefWidth="45"/>
+                <Label fx:id="minuteSignLabel" styleClass="task-info-label" text="minutes:"/>
+                <TextField fx:id="durationMinuteField" prefWidth="45"/>
+            </HBox>
+            <HBox styleClass="task-box">
+                <Button fx:id="newTaskButton" text="Add new task"/>
+                <Button fx:id="editTaskButton" text="Edit task"/>
+                <Button fx:id="saveButton" text="Save"/>
+                <Button fx:id="cancelButton" text="Cancel"/>
             </HBox>
         </VBox>
     </left>

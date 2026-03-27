@@ -2,10 +2,14 @@ package model;
 
 import dao.CategoryDAO;
 import dao.TaskDAO;
+import util.OperationMode;
+import util.ValidationResult;
 
 import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static util.OperationMode.EDIT;
 
 public class TaskManager {
     private List<Task> tasks;
@@ -60,11 +64,11 @@ public class TaskManager {
         categories.remove(category);
     }
 
-    public void updateCategory(Category category){
+    public void editCategory(Category category){
         categoryDAO.updateCategory(category);
     }
 
-    public void updateTask(Task task){
+    public void editTask(Task task){
         taskDAO.updateTask(task);
     }
 
@@ -82,5 +86,32 @@ public class TaskManager {
 
     public List<Task> getTasks(){
         return tasks;
+    }
+
+    public List<Category> getCategoryList(){
+        return new ArrayList<>(categories.values());
+    }
+
+    public ValidationResult validateTask(Task task, OperationMode mode){
+        if (task.getName().length() > 20){
+            return new ValidationResult(false, "Name should be less than 20 characters");
+        }
+
+        if (task.getDeadline() != null && task.getDeadline().isBefore(LocalDateTime.now())){
+            return new ValidationResult(false, "Deadline cannot be in the past");
+        }
+
+        if (task.getDeadline() != null && task.getGoalEndTime() != null && task.getDeadline().isBefore(task.getGoalEndTime())){
+            return new ValidationResult(false, "Deadline cannot be before goal finish time");
+        }
+
+        for (Task t : taskDAO.getAllTasks()){
+            if (mode == EDIT && task.getId() == t.getId()){
+                continue;
+            }
+            if (task.getName().equals(t.getName())) return new ValidationResult(false, "There already exists task " + task.getName());
+        }
+
+        return new ValidationResult(true, "ok");
     }
 }

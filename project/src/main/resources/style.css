@@ -1,6 +1,6 @@
 .label {
     -fx-font-family: "Consolas", "Courier New", monospace; /* czcionka monospaced */
-    -fx-font-size: 16px;                                  /* rozmiar czytelny */
+    -fx-font-size: 18px;                                  /* rozmiar czytelny */
     -fx-text-fill: #e0e0e0;                               /* jasny kolor tekstu */
     -fx-background-color: #2b2b2b;                        /* ciemne tło jak w IDE */
     -fx-padding: 5 10 5 10;                               /* trochę odstępu */
@@ -24,11 +24,11 @@ BorderPane {
     -fx-border-radius: 5;
     -fx-spacing: 10; /* HBox spacing */
     -fx-alignment: center-left;
+    -fx-border-color: #0f0f0f;
+    -fx-border-width: 0 3 5 0;
 }
 
 .task-box .task-name {
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
 }
 
 .left-pane {
@@ -44,3 +44,70 @@ BorderPane {
     -fx-background-radius: 4px;                            /* lekko zaokrąglone rogi */
 }
 
+.button {
+        -fx-font-family: "Consolas", "Courier New", monospace; /* czcionka monospaced */
+        -fx-font-size: 16px;                                  /* rozmiar czytelny */
+        -fx-text-fill: #e0e0e0;                               /* jasny kolor tekstu */
+        -fx-background-color: #2b2b2b;                        /* ciemne tło jak w IDE */
+        -fx-border-color: #0f0f0f;
+        -fx-border-width: 0 3 3 0;
+}
+
+.button:hover {
+   -fx-background-color: #0f0f0f
+}
+
+.text-field {
+        -fx-font-family: "Consolas", "Courier New", monospace; /* czcionka monospaced */
+        -fx-font-size: 18px;                                  /* rozmiar czytelny */
+        -fx-text-fill: #e0e0e0;                               /* jasny kolor tekstu */
+        -fx-background-color: #2b2b2b;                        /* ciemne tło jak w IDE */
+}
+
+.combo-box {
+    -fx-background-color: #2b2b2b;                               /* rozmiar czytelny */                     /* ciemne tło jak w IDE */
+}
+
+
+.combo-box-base .context-menu,
+.combo-box .list-view {
+    -fx-background-color: #2b2b2b;
+    -fx-border-color: #3c3f41; /* Ciemniejsza ramka dla efektu głębi */
+    -fx-border-width: 1px;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: #2b2b2b; /* Tło komórki */
+    -fx-text-fill: #e0e0e0;         /* Kolor tekstu */
+    -fx-padding: 5px 10px;
+}
+
+.combo-box .list-cell:hover {
+    -fx-background-color: #4b4b4b; /* Jaśniejszy szary przy hoverze */
+    -fx-text-fill: #ffffff;
+}
+
+.combo-box .list-cell:selected {
+    -fx-background-color: #2b2b2b; /* Kolor zaznaczenia (np. niebieski a'la IntelliJ) */
+    -fx-text-fill: white;
+}
+
+.date-picker {
+    -fx-font-family: "Consolas", "Courier New", monospace;
+    -fx-font-size: 16px;
+    -fx-background-color: #2b2b2b;
+    -fx-border-color: #3c3f41;
+    -fx-border-width: 1px;
+}
+
+.date-picker > .arrow-button > .arrow {
+    -fx-background-color: #e0e0e0; /* Kolor ikonki */
+    -fx-shape: "M7 11h2v2H7v-2zm14-5v14c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2h1V2h2v2h8V2h2v2h1c1.1 0 2 .9 2 2zM5 8h14V6H5v2zm14 12V10H5v10h14z"; /* Opcjonalnie: własny kształt SVG */
+}
+
+.date-picker > .arrow-button {
+    -fx-background-color: #3c3f41; /* Ciemniejszy szary, żeby odcinał się od tła pola */
+    -fx-background-insets: 0;      /* Usuwa domyślne białe obramowanie wewnątrz */
+    -fx-background-radius: 0 3 3 0; /* Zaokrąglenie tylko z prawej strony (górne i dolne) */
+    -fx-cursor: hand;               /* Zmienia kursor na rączkę po najechaniu */
+}

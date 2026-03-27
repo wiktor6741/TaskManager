@@ -3,6 +3,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import model.Task;
@@ -30,8 +31,14 @@ public class TaskBox extends HBox {
         getStyleClass().add("task-box");
 
         Label nameLabel = new Label(task.getName());
-        nameLabel.getStyleClass().add("task-name");
+        //nameLabel.getStyleClass().add("task-name");
         getChildren().add(nameLabel);
+
+        Label label = new Label("huj w dupe zadanie 123");
+        label.getStyleClass().add("task-info-label");
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
 
         if (task.getDeadline() != null) {
             ClockIcon clockIcon = new ClockIcon(20, getClockColor());
@@ -41,6 +48,9 @@ public class TaskBox extends HBox {
             ImportanceIndicator importanceIndicator = new ImportanceIndicator(task.getPriority(), 5);
             getChildren().add(importanceIndicator);
         }
+
+        getChildren().add(spacer);
+        getChildren().add(label);
 
         addEventHandler(MouseEvent.MOUSE_ENTERED, e -> setStyle("-fx-background-color: #1b1e24; -fx-padding: 10; -fx-border-radius: 5;"));
 

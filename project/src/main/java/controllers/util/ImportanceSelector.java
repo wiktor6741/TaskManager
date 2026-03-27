@@ -8,7 +8,7 @@ import javafx.geometry.Pos;
 public class ImportanceSelector extends HBox {
 
     private final int max;
-    private int selected = 0; // aktualnie wybrana wartość
+    private int selected = 0;
     private final Circle[] dots;
 
     public ImportanceSelector(int max) {
@@ -24,16 +24,15 @@ public class ImportanceSelector extends HBox {
             dot.setStroke(Color.GRAY);
 
             final int index = i;
-            dot.setOnMouseEntered(e -> highlight(index + 1)); // hover
-            dot.setOnMouseExited(e -> highlight(selected));   // powrót po wyjściu kursora
-            dot.setOnMouseClicked(e -> selected = index + 1); // wybór wartości
+            dot.setOnMouseEntered(e -> highlight(index + 1));
+            dot.setOnMouseExited(e -> highlight(selected));
+            dot.setOnMouseClicked(e -> selected = index + 1);
 
             dots[i] = dot;
             getChildren().add(dot);
         }
     }
 
-    // Pokolorowanie wszystkich kropek do wybranego indexu
     private void highlight(int upTo) {
         for (int i = 0; i < max; i++) {
             if (i < upTo) {
@@ -44,7 +43,6 @@ public class ImportanceSelector extends HBox {
         }
     }
 
-    // Kolor zależny od wartości
     private Color getColor(int value, int max) {
         double ratio = (double) value / max;
         if (ratio > 0.7) return Color.RED;
