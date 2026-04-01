@@ -6,6 +6,7 @@ import model.Task;
 
 import java.sql.Connection;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Main {
@@ -28,9 +29,12 @@ public class Main {
 
 
     public void taskAdditions(){
-        Task task1 = new Task("Task1");
-        taskDAO.addTask(task1);
-
+        for (int i = 0; i < 8; i++) {
+            Task task1 = new Task("Task" + Integer.toString(i));
+            task1.setPriority(4);
+            task1.setDeadline(LocalDateTime.parse("2026-04-23T22:00"));
+            taskDAO.addTask(task1);
+        }
     }
 
     public void categoryAdditions(){
@@ -82,6 +86,5 @@ public class Main {
         categoryDAO.clear();
     }
 
-
-
 }
+

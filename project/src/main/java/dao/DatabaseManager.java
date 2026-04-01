@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseManager {
@@ -50,6 +51,7 @@ public class DatabaseManager {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("Błąd inicjalizacji bazy danych", e);
         }
     }

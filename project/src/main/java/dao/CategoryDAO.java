@@ -62,11 +62,12 @@ public class CategoryDAO {
     }
 
     public void updateCategory(Category category) {
+        System.out.println(category.getName());
         String sql = """
                 UPDATE Categories
                 SET 
                     CategoryName = ?,
-                    CategoryName = ?,
+                    Description = ?
                 WHERE CategoryID = ?
                 """;
 

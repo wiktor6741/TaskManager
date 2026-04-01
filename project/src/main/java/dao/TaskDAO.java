@@ -33,10 +33,19 @@ public class TaskDAO {
                     task.setId(rs.getInt("TaskID"));
 
                     Integer categoryId = rs.getInt("CategoryID");
+
                     if (rs.wasNull()) {
                         categoryId = null;
                     }
                     task.setCategoryID(categoryId);
+
+                    Integer priority = rs.getInt("Priority");
+
+                    if (rs.wasNull()) {
+                        priority = null;
+                    }
+
+                    task.setPriority(priority);
 
                     task.setDescription(rs.getString("Description"));
 
@@ -79,8 +88,8 @@ public class TaskDAO {
     public void addTask(Task task){
         String sql = """
             INSERT INTO Tasks 
-            (CategoryID, TaskName, Description, ExpectedDuration, GoalEndTime, Deadline)
-            VALUES (?, ?, ?, ?, ?, ?)
+            (CategoryID, TaskName, Description, ExpectedDuration, GoalEndTime, Deadline, Priority)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
             """;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -94,7 +103,9 @@ public class TaskDAO {
             ps.setString(4, task.getExpectedDuration() != null ? task.getExpectedDuration().toString() : null);
             ps.setString(5, task.getGoalEndTime() != null ? task.getGoalEndTime().toString() : null);
             ps.setString(6, task.getDeadline() != null ? task.getDeadline().toString() : null);
-
+            if (task.getPriority() != null) {
+                ps.setInt(7, task.getPriority());
+            }
             ps.executeUpdate();
 
             try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -132,7 +143,8 @@ public class TaskDAO {
                     Description = ?,
                     ExpectedDuration = ?,
                     GoalEndTime = ?,
-                    Deadline = ?
+                    Deadline = ?,
+                    Priority = ?
                 WHERE TaskID = ?""";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)){
@@ -146,7 +158,13 @@ public class TaskDAO {
             ps.setString(4, task.getExpectedDuration() != null ? task.getExpectedDuration().toString() : null);
             ps.setString(5, task.getGoalEndTime() != null ? task.getGoalEndTime().toString() : null);
             ps.setString(6, task.getDeadline() != null ? task.getDeadline().toString() : null);
-            ps.setInt(7, task.getId());
+            if (task.getPriority() != null) {
+                ps.setInt(7, task.getPriority());
+            } else {
+                ps.setNull(7, java.sql.Types.INTEGER);
+            }
+
+            ps.setInt(8, task.getId());
 
             ps.executeUpdate();
         } catch (Exception e){

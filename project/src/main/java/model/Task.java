@@ -73,7 +73,7 @@ public class Task {
         return deadline;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(Integer priority) {
         this.priority = priority;
     }
 

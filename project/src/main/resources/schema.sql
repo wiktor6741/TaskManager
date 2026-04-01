@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS Tasks (
 
                                      FOREIGN KEY (CategoryID)
                                          REFERENCES Categories(CategoryID)
-                                         ON DELETE CASCADE
+                                         ON DELETE SET NULL
 );
 
 

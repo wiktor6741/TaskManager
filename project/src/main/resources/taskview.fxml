@@ -3,11 +3,110 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ComboBox?>
 
-<BorderPane>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.TaskViewController">
     <right>
         <VBox>
-            <Label text="elo"/>
+            <HBox  fx:id="DisplaySettingsHbox" styleClass="task-box" style="-fx-background-color: #131a21">
+                <Label text="Category:"></Label>
+                <ComboBox promptText="All" fx:id="categoryViewComboBox"/>
+                <Button fx:id="categoryMenuButton" text="Category Menu"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label text="Sort by:"/>
+                <ComboBox fx:id="sortingModeComboBox"/>
+            </HBox>
+            <ScrollPane fx:id="taskScroll" fitToWidth="true" prefWidth="800">
+                <content>
+                    <VBox fx:id="taskVBox"/>
+                </content>
+            </ScrollPane>
         </VBox>
     </right>
+    <center>
+        <StackPane>
+            <VBox fx:id="taskDetailVBox" styleClass="left-pane" maxWidth="600" alignment="CENTER" maxHeight="-Infinity">
+                <HBox fx:id="nameBox" styleClass="task-box">
+                    <Label fx:id="nameLabel" style="-fx-font-size: 25px"/>
+                    <TextField fx:id="nameTextField" style="-fx-font-size: 25px" prefWidth="400"/>
+                </HBox>
+                <HBox fx:id="categoryBox" styleClass="task-box">
+                    <Label text="Category"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="categoryLabel" styleClass="task-info-label"/>
+                    <ComboBox promptText="Category" fx:id="categoryComboBox"/>
+                </HBox>
+                <HBox fx:id="priorityBox" styleClass="task-box">
+                    <Label text="Priority"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                </HBox>
+                <HBox fx:id="goalTimeBox" styleClass="task-box">
+                    <Label text="Goal finish time"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="goalTimeLabel" styleClass="task-info-label"/>
+                    <DatePicker fx:id="goalTimeDatePicker"/>
+                    <ComboBox fx:id="goalHourBox" promptText="HH"/>
+                    <ComboBox fx:id="goalMinuteBox" promptText="mm"/>
+                </HBox>
+                <HBox fx:id="deadlineBox" styleClass="task-box">
+                    <Label text="Deadline"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="deadlineLabel" styleClass="task-info-label"/>
+                    <DatePicker fx:id="deadlineDatePicker"/>
+                    <ComboBox fx:id="deadlineHourBox" promptText="HH"/>
+                    <ComboBox fx:id="deadlineMinuteBox" promptText="mm"/>
+                </HBox>
+                <HBox fx:id="expectedDurationBox" styleClass="task-box">
+                    <Label text="Expected Duration"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="durationLabel" styleClass="task-info-label"/>
+                    <Label fx:id="hourSignLabel" styleClass="task-info-label" text="hours:"/>
+                    <TextField fx:id="durationHourField" prefWidth="70"/>
+                    <Label fx:id="minuteSignLabel" styleClass="task-info-label" text="minutes:"/>
+                    <TextField fx:id="durationMinuteField" prefWidth="70"/>
+                </HBox>
+                <HBox styleClass="task-box">
+                    <Button fx:id="newTaskButton" text="Add new task"/>
+                    <Button fx:id="editTaskButton" text="Edit task"/>
+                    <Button fx:id="deleteTaskButton" text="Delete task"/>
+                    <Button fx:id="saveButton" text="Save"/>
+                    <Button fx:id="cancelButton" text="Cancel"/>
+                </HBox>
+                <HBox fx:id="taskSaveErrorHBox" styleClass="task-box">
+                    <Label fx:id="taskSaveErrorMessageLabel" styleClass="error-message-label"/>
+                </HBox>
+                <HBox fx:id="taskDeleteConfirmationHBox" styleClass="task-box">
+                    <Label text="Are you sure you want to delete?"/>
+                    <Button fx:id="taskDeleteYesButton" text="Yes"/>
+                    <Button fx:id="taskDeleteNoButton" text="No"/>
+                </HBox>
+            </VBox>
+            <VBox  fx:id="categoryMenuVBox" styleClass="left-pane" maxWidth="600" alignment="CENTER" maxHeight="-Infinity">
+                <HBox fx:id="categoryNameBox" styleClass="task-box" >
+                    <Label  text="Category Name" fx:id="categoryNameLabel" style="-fx-font-size: 18px"/>
+                    <TextField fx:id="categoryNameTextField" style="-fx-font-size: 18px" prefWidth="400"/>
+                    <Label text="Pick category" fx:id="categoryPickLabel"/>
+                    <ComboBox fx:id="categoryMenuComboBox" promptText="None"/>
+                </HBox>
+                <HBox styleClass="task-box">
+                    <Button fx:id="categorySaveButton" text="Save"/>
+                    <Button fx:id="categoryCancelButton" text="Cancel"/>
+                    <Button fx:id="addCategoryButton" text="Add category"/>
+                    <Button fx:id="editCategoryButton" text="Edit category"/>
+                    <Button fx:id="deleteCategoryButton" text="Delete category"/>
+                    <Button fx:id="taskMenuButton" text="Task menu"/>
+                </HBox>
+                <HBox fx:id="categorySaveErrorHBox" styleClass="task-box">
+                    <Label fx:id="categorySaveErrorMessageLabel" styleClass="error-message-label"/>
+                </HBox>
+            </VBox>
+        </StackPane>
+    </center>
 </BorderPane>
