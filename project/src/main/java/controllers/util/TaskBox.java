@@ -1,5 +1,6 @@
 package controllers.util;
 import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.input.MouseEvent;
@@ -16,10 +17,10 @@ import static java.awt.Color.red;
 
 public class TaskBox extends HBox {
 
-    private final Task task; // referencja do taska
+    private final Task task;
 
     private Consumer<Task> onClick;
-
+    private Consumer<Task> onComplete;
     private boolean selected = false;
 
     public TaskBox(Task task) {
@@ -31,14 +32,17 @@ public class TaskBox extends HBox {
         getStyleClass().add("task-box");
 
         Label nameLabel = new Label(task.getName());
-        //nameLabel.getStyleClass().add("task-name");
         getChildren().add(nameLabel);
-
-        Label label = new Label("huj w dupe zadanie 123");
-        label.getStyleClass().add("task-info-label");
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
+        CheckBox checkBox = new CheckBox();
+        checkBox.setOnMouseClicked(e -> e.consume());
+        checkBox.setOnAction(e -> {
+            if (checkBox.isSelected() && onComplete != null) {
+                onComplete.accept(task); // Przekazujemy taska do usunięcia
+            }
+        });
 
         if (task.getDeadline() != null) {
             ClockIcon clockIcon = new ClockIcon(20, getClockColor());
@@ -50,7 +54,7 @@ public class TaskBox extends HBox {
         }
 
         getChildren().add(spacer);
-        getChildren().add(label);
+        getChildren().add(checkBox);
 
         addEventHandler(MouseEvent.MOUSE_ENTERED, e -> setStyle("-fx-background-color: #1b1e24; -fx-padding: 10; -fx-border-radius: 5;"));
 
@@ -59,7 +63,13 @@ public class TaskBox extends HBox {
         }});
 
         setOnMouseClicked(e -> { if (onClick != null) { onClick.accept(task); } });
+
+
     }
+    public void setOnComplete(Consumer<Task> onComplete) {
+        this.onComplete = onComplete;
+    }
+
     private Color getClockColor() {
         LocalDateTime deadline = task.getDeadline();
         Duration timeLeft = Duration.between(LocalDateTime.now(), deadline);

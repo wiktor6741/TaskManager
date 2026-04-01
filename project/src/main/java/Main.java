@@ -34,7 +34,6 @@ public class Main {
             task1.setPriority(4);
             task1.setDeadline(LocalDateTime.parse("2026-04-23T22:00"));
             taskDAO.addTask(task1);
-
         }
     }
 
@@ -86,8 +85,6 @@ public class Main {
         taskDAO.clear();
         categoryDAO.clear();
     }
-
-
 
 }
 

@@ -1,10 +1,17 @@
 .label {
-    -fx-font-family: "Consolas", "Courier New", monospace; /* czcionka monospaced */
-    -fx-font-size: 18px;                                  /* rozmiar czytelny */
-    -fx-text-fill: #e0e0e0;                               /* jasny kolor tekstu */
-    -fx-background-color: #2b2b2b;                        /* ciemne tło jak w IDE */
-    -fx-padding: 5 10 5 10;                               /* trochę odstępu */
-    -fx-background-radius: 4px;                            /* lekko zaokrąglone rogi */
+    -fx-font-family: "Consolas", "Courier New", monospace;
+    -fx-font-size: 18px;
+    -fx-text-fill: #e0e0e0;
+    -fx-background-color: #2b2b2b;
+    -fx-padding: 5 10 5 10;
+    -fx-background-radius: 4px;
+}
+
+.error-message-label{
+    -fx-font-family: "Consolas", "Courier New", monospace;
+    -fx-font-size: 11px;
+    -fx-text-fill: red;
+    -fx-background-color: transparent;
 }
 
 .scroll-pane {
@@ -17,11 +24,17 @@
 BorderPane {
     -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #313740, #6a6e75);
 }
+.left-pane {
+    -fx-border-color: black;
+    -fx-border-width: 5;
+    -fx-border-style: solid;
+    -fx-padding: 0;
+    -fx-border-insets: 0;
+}
 
 .task-box {
     -fx-background-color: #2d3138;
     -fx-padding: 10;
-    -fx-border-radius: 5;
     -fx-spacing: 10; /* HBox spacing */
     -fx-alignment: center-left;
     -fx-border-color: #0f0f0f;
@@ -31,24 +44,20 @@ BorderPane {
 .task-box .task-name {
 }
 
-.left-pane {
-    -fx-padding: 10;
-}
-
 .task-info-label {
     -fx-background-color: transparent;
-    -fx-font-family: "Consolas", "Courier New", monospace; /* czcionka monospaced */
-    -fx-font-size: 16px;                                  /* rozmiar czytelny */
-    -fx-text-fill: #e0e0e0;                               /* jasny kolor tekstu */
-    -fx-padding: 5 10 5 10;                               /* trochę odstępu */
-    -fx-background-radius: 4px;                            /* lekko zaokrąglone rogi */
+    -fx-font-family: "Consolas", "Courier New", monospace;
+    -fx-font-size: 16px;
+    -fx-text-fill: #e0e0e0;
+    -fx-padding: 5 10 5 10;
+    -fx-background-radius: 4px;
 }
 
 .button {
-        -fx-font-family: "Consolas", "Courier New", monospace; /* czcionka monospaced */
-        -fx-font-size: 16px;                                  /* rozmiar czytelny */
-        -fx-text-fill: #e0e0e0;                               /* jasny kolor tekstu */
-        -fx-background-color: #2b2b2b;                        /* ciemne tło jak w IDE */
+        -fx-font-family: "Consolas", "Courier New", monospace;
+        -fx-font-size: 16px;
+        -fx-text-fill: #e0e0e0;
+        -fx-background-color: #2b2b2b;
         -fx-border-color: #0f0f0f;
         -fx-border-width: 0 3 3 0;
 }
@@ -58,37 +67,38 @@ BorderPane {
 }
 
 .text-field {
-        -fx-font-family: "Consolas", "Courier New", monospace; /* czcionka monospaced */
-        -fx-font-size: 18px;                                  /* rozmiar czytelny */
-        -fx-text-fill: #e0e0e0;                               /* jasny kolor tekstu */
-        -fx-background-color: #2b2b2b;                        /* ciemne tło jak w IDE */
+        -fx-font-family: "Consolas", "Courier New", monospace;
+        -fx-font-size: 18px;
+        -fx-text-fill: #e0e0e0;
+        -fx-background-color: #2b2b2b;
 }
 
 .combo-box {
-    -fx-background-color: #2b2b2b;                               /* rozmiar czytelny */                     /* ciemne tło jak w IDE */
+    -fx-background-color: #2b2b2b;
 }
+
 
 
 .combo-box-base .context-menu,
 .combo-box .list-view {
     -fx-background-color: #2b2b2b;
-    -fx-border-color: #3c3f41; /* Ciemniejsza ramka dla efektu głębi */
+    -fx-border-color: #3c3f41;
     -fx-border-width: 1px;
 }
 
 .combo-box .list-cell {
-    -fx-background-color: #2b2b2b; /* Tło komórki */
-    -fx-text-fill: #e0e0e0;         /* Kolor tekstu */
+    -fx-background-color: #2b2b2b;
+    -fx-text-fill: #e0e0e0;
     -fx-padding: 5px 10px;
 }
 
 .combo-box .list-cell:hover {
-    -fx-background-color: #4b4b4b; /* Jaśniejszy szary przy hoverze */
+    -fx-background-color: #4b4b4b;
     -fx-text-fill: #ffffff;
 }
 
 .combo-box .list-cell:selected {
-    -fx-background-color: #2b2b2b; /* Kolor zaznaczenia (np. niebieski a'la IntelliJ) */
+    -fx-background-color: #2b2b2b;
     -fx-text-fill: white;
 }
 
@@ -101,13 +111,50 @@ BorderPane {
 }
 
 .date-picker > .arrow-button > .arrow {
-    -fx-background-color: #e0e0e0; /* Kolor ikonki */
+    -fx-background-color: #e0e0e0;
     -fx-shape: "M7 11h2v2H7v-2zm14-5v14c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2h1V2h2v2h8V2h2v2h1c1.1 0 2 .9 2 2zM5 8h14V6H5v2zm14 12V10H5v10h14z"; /* Opcjonalnie: własny kształt SVG */
 }
 
 .date-picker > .arrow-button {
-    -fx-background-color: #3c3f41; /* Ciemniejszy szary, żeby odcinał się od tła pola */
-    -fx-background-insets: 0;      /* Usuwa domyślne białe obramowanie wewnątrz */
-    -fx-background-radius: 0 3 3 0; /* Zaokrąglenie tylko z prawej strony (górne i dolne) */
-    -fx-cursor: hand;               /* Zmienia kursor na rączkę po najechaniu */
+    -fx-background-color: #3c3f41;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0 3 3 0;
+    -fx-cursor: hand;
+}
+
+
+.check-box {
+    -fx-font-family: "Consolas", "Courier New", monospace;
+    -fx-font-size: 14px;
+    -fx-text-fill: #e0e0e0;
+    -fx-cursor: hand;
+}
+
+
+.check-box > .box {
+    -fx-background-color: #2b2b2b;
+    -fx-border-color: #0f0f0f;
+    -fx-border-width: 1 2 2 1;
+    -fx-background-radius: 2px;
+    -fx-border-radius: 2px;
+    -fx-padding: 3px;
+}
+
+.check-box:hover > .box {
+    -fx-background-color: #3c3f41;
+    -fx-border-color: #4b4b4b;
+}
+
+.check-box:selected > .box > .mark {
+    -fx-background-color: #e0e0e0; /* Kolor ptaszka pasujący do tekstu */
+    -fx-shape: "M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"; /* Ostry kształt SVG */
+}
+
+.check-box:focused > .box {
+    -fx-background-color: #2b2b2b;
+    -fx-border-color: #e0e0e0; /* Subtelna jasna ramka przy focusie klawiaturą */
+}
+
+.check-box:pressed > .box {
+    -fx-background-color: #0f0f0f;
 }

@@ -9,7 +9,8 @@ import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static util.OperationMode.EDIT;
+import static util.OperationMode.CATEGORY_EDIT;
+import static util.OperationMode.TASK_EDIT;
 
 public class TaskManager {
     private List<Task> tasks;
@@ -31,20 +32,25 @@ public class TaskManager {
         return categories.get(task.getCategoryID());
     }
 
-    public void toggleCategory(int index) {
-        if (index >= categories.size()) {
+    public void toggleCategory(Integer id) {
+        if (!categories.containsKey(id)) {
             throw new RuntimeException("no such index in categories");
         }
-        Category category = categories.get(index);
+        Category category = categories.get(id);
         tasks = taskDAO.getCategoryTasks(category.getId());
         currentViewedCategory = category;
     }
 
     public void addTask(Task task) {
         taskDAO.addTask(task);
-        if (currentViewedCategory == null || task.getCategoryID() == currentViewedCategory.getId()) {
+        if (currentViewedCategory == null || (task.getCategoryID() != null && task.getCategoryID() == currentViewedCategory.getId())) {
             tasks.add(task);
         }
+    }
+
+    public void getAllTasks(){
+        currentViewedCategory = null;
+        tasks = taskDAO.getAllTasks();
     }
 
     public void deleteTask(Task task) {
@@ -60,8 +66,15 @@ public class TaskManager {
     }
 
     public void deleteCategory(Category category){
+        if (currentViewedCategory == category){
+            currentViewedCategory = null;
+            getAllTasks();
+        }
+        if (currentViewedCategory == null){
+            getAllTasks();
+        }
         categoryDAO.deleteCategory(category.getId());
-        categories.remove(category);
+        categories.remove(category.getId());
     }
 
     public void editCategory(Category category){
@@ -79,8 +92,24 @@ public class TaskManager {
     }
 
     public void sortByPriority() {
+        tasks.sort(Comparator.comparing(Task::getPriority, Comparator.nullsLast(Comparator.reverseOrder())));
+
+    }
+
+    public void sortByPriorityAndDeadline() {
         tasks.sort(
-                Comparator.comparing(Task::getPriority, Comparator.nullsLast(Integer::compareTo))
+                Comparator.comparing(Task::getPriority, Comparator.nullsLast(Comparator.reverseOrder()))
+                        .thenComparing(Task::getDeadline, Comparator.nullsLast(LocalDateTime::compareTo))
+        );
+    }
+
+    public void sortByDeadlineAndPriority() {
+        tasks.sort(
+                Comparator.comparing(Task::getDeadline, Comparator.nullsLast(LocalDateTime::compareTo))
+                        .thenComparing(
+                                Task::getPriority,
+                                Comparator.nullsLast(Comparator.reverseOrder()) // Dodano nullsLast!
+                        )
         );
     }
 
@@ -93,8 +122,12 @@ public class TaskManager {
     }
 
     public ValidationResult validateTask(Task task, OperationMode mode){
-        if (task.getName().length() > 20){
-            return new ValidationResult(false, "Name should be less than 20 characters");
+        if (task.getName().length() > 30 || task.getName().length() < 1){
+            return new ValidationResult(false, "Name should be between 1 and 30 characters");
+        }
+
+        if (task.getGoalEndTime() != null && task.getGoalEndTime().isBefore(LocalDateTime.now())){
+            return new ValidationResult(false, "Goal end time cannot be in the past");
         }
 
         if (task.getDeadline() != null && task.getDeadline().isBefore(LocalDateTime.now())){
@@ -106,10 +139,25 @@ public class TaskManager {
         }
 
         for (Task t : taskDAO.getAllTasks()){
-            if (mode == EDIT && task.getId() == t.getId()){
+            if (mode == TASK_EDIT && task.getId() == t.getId()){
                 continue;
             }
             if (task.getName().equals(t.getName())) return new ValidationResult(false, "There already exists task " + task.getName());
+        }
+
+        return new ValidationResult(true, "ok");
+    }
+
+    public ValidationResult validateCategory(Category category, OperationMode mode){
+        if (category.getName().length() > 20 || category.getName().length() < 1){
+            return new ValidationResult(false, "Name should be less than 20 characters and at least 1 character");
+        }
+
+        for (Category c : categoryDAO.getAllCategories()){
+            if (mode == CATEGORY_EDIT && category.getId() == c.getId()) continue;
+            if (c.getName() == category.getName()){
+                return new ValidationResult(false, "There already exists category" + c.getName());
+            }
         }
 
         return new ValidationResult(true, "ok");

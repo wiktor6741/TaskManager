@@ -1,7 +1,10 @@
 package util;
 
 public enum OperationMode {
-    INFO,
-    CREATE,
-    EDIT
+    TASK_INFO,
+    TASK_CREATE,
+    TASK_EDIT,
+    CATEGORY_INFO,
+    CATEGORY_CREATE,
+    CATEGORY_EDIT
 }
