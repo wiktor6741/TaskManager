@@ -1,5 +1,8 @@
 # TaskManager
-A to-do app allowing for splitting tasks into categories, prioritization and deadline setting
+
+## Description
+A to-do app allowing for splitting tasks into categories, prioritization and deadline setting .
+
 
 ## Requirements
 * **Java JDK:** 25 or newer
@@ -29,7 +32,7 @@ A to-do app allowing for splitting tasks into categories, prioritization and dea
     ```
 2. Navigate to project directory:
     ```bash
-      cd TaskManager/project
+      cd TaskManager/project/
    ```
 
 3. Run the build command:
