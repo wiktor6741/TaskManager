@@ -1,0 +1,268 @@
+/* === GLOBAL === */
+.label {
+    -fx-font-family: "Helvetica Neue", "Arial", sans-serif;
+    -fx-font-size: 17px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #111827;
+    -fx-background-color: transparent;
+    -fx-padding: 4 8 4 8;
+}
+
+.error-message-label {
+    -fx-font-family: "Helvetica Neue", "Arial", sans-serif;
+    -fx-font-size: 11px;
+    -fx-text-fill: #e53e3e;
+    -fx-background-color: transparent;
+}
+
+/* === LAYOUT === */
+BorderPane {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #eef2ff, #f0f4ff);
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .scroll-bar:vertical > .track {
+    -fx-background-color: rgba(0, 0, 0, 0.05);
+    -fx-background-radius: 4px;
+}
+
+.scroll-pane > .scroll-bar:vertical > .thumb {
+    -fx-background-color: rgba(59, 130, 246, 0.35);
+    -fx-background-radius: 4px;
+}
+
+/* === PANELS === */
+.left-pane {
+    -fx-background-color: rgba(255, 255, 255, 0.82);
+    -fx-border-color: rgba(200, 215, 255, 0.5);
+    -fx-border-width: 1;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-padding: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 16, 0, 0, 4);
+}
+
+/* === TASK BOX === */
+.task-box {
+    -fx-background-color: rgba(255, 255, 255, 0.72);
+    -fx-padding: 12 16 12 16;
+    -fx-spacing: 10;
+    -fx-alignment: center-left;
+    -fx-background-radius: 10;
+    -fx-border-color: rgba(200, 215, 255, 0.45);
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2);
+}
+
+.task-box:hover {
+    -fx-background-color: rgba(239, 246, 255, 0.9);
+    -fx-border-color: rgba(147, 197, 253, 0.65);
+    -fx-cursor: hand;
+}
+
+.task-box.task-box-selected {
+    -fx-background-color: rgba(219, 234, 254, 0.95);
+    -fx-border-color: rgba(59, 130, 246, 0.55);
+    -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.12), 10, 0, 0, 3);
+}
+
+/* === DEFAULT BOX (identical to task-box, no hover effect) === */
+.default-box {
+    -fx-background-color: rgba(255, 255, 255, 0.72);
+    -fx-padding: 12 16 12 16;
+    -fx-spacing: 10;
+    -fx-alignment: center-left;
+    -fx-background-radius: 10;
+    -fx-border-color: rgba(200, 215, 255, 0.45);
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2);
+}
+
+/* === DISPLAY SETTINGS BAR === */
+.display-settings-bar {
+    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-border-color: rgba(180, 210, 255, 0.75);
+    -fx-border-width: 1;
+    -fx-padding: 12 16 12 16;
+    -fx-spacing: 10;
+    -fx-alignment: center-left;
+}
+
+/* === FONT SIZE OVERRIDES === */
+.task-title-text {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.section-title-text {
+    -fx-font-size: 16px;
+}
+
+.task-info-label {
+    -fx-background-color: transparent;
+    -fx-font-family: "Helvetica Neue", "Arial", sans-serif;
+    -fx-font-size: 17px;
+    -fx-text-fill: #374151;
+    -fx-padding: 2 6 2 6;
+}
+
+/* === BUTTONS === */
+.button {
+    -fx-font-family: "Helvetica Neue", "Arial", sans-serif;
+    -fx-font-size: 13px;
+    -fx-font-weight: normal;
+    -fx-text-fill: #2563eb;
+    -fx-background-color: rgba(59, 130, 246, 0.1);
+    -fx-background-radius: 8;
+    -fx-border-color: rgba(59, 130, 246, 0.35);
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-padding: 7 16 7 16;
+    -fx-cursor: hand;
+    -fx-effect: none;
+}
+
+.button:hover {
+    -fx-background-color: rgba(59, 130, 246, 0.18);
+    -fx-border-color: rgba(59, 130, 246, 0.55);
+    -fx-effect: none;
+}
+
+.button:pressed {
+    -fx-background-color: rgba(59, 130, 246, 0.28);
+    -fx-effect: none;
+}
+
+/* === TEXT FIELDS === */
+.text-field {
+    -fx-font-family: "Helvetica Neue", "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #111827;
+    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-background-radius: 8;
+    -fx-border-color: rgba(200, 215, 255, 0.65);
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+    -fx-padding: 8 12 8 12;
+}
+
+.text-field:focused {
+    -fx-border-color: #3b82f6;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.2), 6, 0, 0, 0);
+}
+
+/* === COMBO BOX === */
+.combo-box {
+    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-background-radius: 8;
+    -fx-border-color: rgba(200, 215, 255, 0.65);
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+}
+
+.combo-box:focused {
+    -fx-border-color: #3b82f6;
+}
+
+.combo-box-base .context-menu,
+.combo-box .list-view {
+    -fx-background-color: white;
+    -fx-border-color: rgba(200, 215, 255, 0.6);
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 12, 0, 0, 4);
+    -fx-background-radius: 8;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #111827;
+    -fx-padding: 8px 12px;
+    -fx-font-family: "Helvetica Neue", "Arial", sans-serif;
+    -fx-font-size: 13px;
+}
+
+.combo-box .list-cell:hover {
+    -fx-background-color: #eff6ff;
+    -fx-text-fill: #1e40af;
+}
+
+.combo-box .list-cell:selected {
+    -fx-background-color: #dbeafe;
+    -fx-text-fill: #1e40af;
+}
+
+/* === DATE PICKER === */
+.date-picker {
+    -fx-font-family: "Helvetica Neue", "Arial", sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-border-color: rgba(200, 215, 255, 0.65);
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.date-picker > .arrow-button > .arrow {
+    -fx-background-color: #3b82f6;
+    -fx-shape: "M7 11h2v2H7v-2zm14-5v14c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2h1V2h2v2h8V2h2v2h1c1.1 0 2 .9 2 2zM5 8h14V6H5v2zm14 12V10H5v10h14z";
+}
+
+.date-picker > .arrow-button {
+    -fx-background-color: rgba(239, 246, 255, 0.9);
+    -fx-background-insets: 0;
+    -fx-background-radius: 0 6 6 0;
+    -fx-cursor: hand;
+}
+
+/* === CHECK BOX === */
+.check-box {
+    -fx-font-family: "Helvetica Neue", "Arial", sans-serif;
+    -fx-font-size: 13px;
+    -fx-text-fill: #111827;
+    -fx-cursor: hand;
+}
+
+.check-box > .box {
+    -fx-background-color: white;
+    -fx-border-color: rgba(200, 215, 255, 0.8);
+    -fx-border-width: 1.5;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-padding: 3px;
+}
+
+.check-box:hover > .box {
+    -fx-background-color: #eff6ff;
+    -fx-border-color: #3b82f6;
+}
+
+.check-box:selected > .box {
+    -fx-background-color: #3b82f6;
+    -fx-border-color: #3b82f6;
+}
+
+.check-box:selected > .box > .mark {
+    -fx-background-color: white;
+    -fx-shape: "M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z";
+}
+
+.check-box:focused > .box {
+    -fx-border-color: #3b82f6;
+    -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.2), 4, 0, 0, 0);
+}
+
+.check-box:pressed > .box {
+    -fx-background-color: #dbeafe;
+}

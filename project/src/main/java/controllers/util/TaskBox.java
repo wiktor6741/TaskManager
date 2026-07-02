@@ -3,7 +3,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
@@ -56,11 +55,6 @@ public class TaskBox extends HBox {
         getChildren().add(spacer);
         getChildren().add(checkBox);
 
-        addEventHandler(MouseEvent.MOUSE_ENTERED, e -> setStyle("-fx-background-color: #1b1e24; -fx-padding: 10; -fx-border-radius: 5;"));
-
-        addEventHandler(MouseEvent.MOUSE_EXITED, e -> { if (!selected) {
-            setStyle("-fx-background-color: #2d3138; -fx-padding: 10; -fx-border-radius: 5;");
-        }});
 
         setOnMouseClicked(e -> { if (onClick != null) { onClick.accept(task); } });
 
@@ -96,14 +90,11 @@ public class TaskBox extends HBox {
     }
 
     public void setSelected(boolean selected){
-
         this.selected = selected;
-        if (!selected){
-            setStyle("-fx-background-color: #2d3138; -fx-padding: 10; -fx-border-radius: 5;");
-        }
-        else {
-            System.out.println("Selected box for task: " + task.getName());
-            setStyle("-fx-background-color: #1b1e24; -fx-padding: 10; -fx-border-radius: 5;");
+        if (selected) {
+            getStyleClass().add("task-box-selected");
+        } else {
+            getStyleClass().remove("task-box-selected");
         }
     }
 }
