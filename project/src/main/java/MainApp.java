@@ -21,7 +21,7 @@ public class MainApp extends Application {
 
         StackPane root = new StackPane();
         Scene scene = new Scene(root, 1600, 1000);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("style2.css").toExternalForm());
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("taskview.fxml"));
