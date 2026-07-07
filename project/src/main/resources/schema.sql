@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS Routines (
 
 CREATE TABLE IF NOT EXISTS RoutineElements (
                                                RoutineElementID INTEGER PRIMARY KEY,
-                                               ElementName TEXT NOT NULL
+                                               ElementName TEXT NOT NULL,
+                                               Description TEXT
 );
 
 
@@ -30,7 +31,7 @@ CREATE TABLE IF NOT EXISTS RoutineTimes (
                                             StartTime TEXT NOT NULL,
                                             EndTime TEXT NOT NULL,
 
-                                            PRIMARY KEY (RoutineID, WeekNum, Weekday, StartMinute),
+                                            PRIMARY KEY (RoutineID, WeekNum, Weekday, StartTime),
 
                                             FOREIGN KEY (RoutineID)
                                                 REFERENCES Routines(RoutineID)
