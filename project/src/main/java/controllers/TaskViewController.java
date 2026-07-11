@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import model.Category;
 import model.Task;
-import model.TaskManager;
+import model.TaskService;
 import util.SortingMode;
 
 import java.time.Duration;
@@ -57,7 +57,7 @@ public class TaskViewController {
 
     private List<Node> taskInfoNodes, taskCreateNodes, categoryInfoNodes, categoryCreateNodes;
 
-    private TaskManager taskManager;
+    private TaskService taskManager;
 
     private ImportanceIndicator taskInfoImportanceIndicator;
 
@@ -203,7 +203,7 @@ public class TaskViewController {
         deleteCategoryButton.setOnMouseClicked(_ -> handleDeleteCategoryButton());
     }
 
-    public void init(TaskManager taskManager){
+    public void init(TaskService taskManager){
         this.taskManager = taskManager;
         reloadTasks();
 

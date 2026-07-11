@@ -11,10 +11,10 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
-public class routineDAO {
+public class RoutineDAO {
     private final Connection conn;
 
-    public routineDAO(Connection conn) {
+    public RoutineDAO(Connection conn) {
         this.conn = conn;
     }
 
@@ -205,11 +205,7 @@ public class routineDAO {
                     RoutineElement routineElement = routineElementsIdMap.get(routineElementID);
                     Routine routine = routineIdMap.get(routineID);
 
-                    try {
-                        routine.addElement(routineElement, timeSpec);
-                    } catch (ConflictingTimeSpecsException e) {
-                        throw new RuntimeException(e);
-                    }
+                    routine.addElement(routineElement, timeSpec);
                 }
             }
 
@@ -257,5 +253,19 @@ public class routineDAO {
         }
     }
 
+    public void clear() {
+        String[] statements = {
+                "DELETE FROM RoutineTimes",
+                "DELETE FROM Routines",
+                "DELETE FROM RoutineElements"
+        };
 
+        try (Statement stmt = conn.createStatement()) {
+            for (String sql : statements) {
+                stmt.executeUpdate(sql);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

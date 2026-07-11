@@ -12,14 +12,14 @@ import java.util.*;
 import static util.OperationMode.CATEGORY_EDIT;
 import static util.OperationMode.TASK_EDIT;
 
-public class TaskManager {
+public class TaskService {
     private List<Task> tasks;
     private final Map<Integer, Category> categories = new HashMap<>();
     private final TaskDAO taskDAO;
     private final CategoryDAO categoryDAO;
     private Category currentViewedCategory;
 
-    public TaskManager(Connection conn) {
+    public TaskService(Connection conn) {
         this.taskDAO = new TaskDAO(conn);
         this.categoryDAO = new CategoryDAO(conn);
         tasks = taskDAO.getAllTasks();

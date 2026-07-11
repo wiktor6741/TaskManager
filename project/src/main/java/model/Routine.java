@@ -1,9 +1,10 @@
 package model;
 
-import util.ConflictingTimeSpecsException;
-import util.RoutineTimeSpec;
+import util.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Routine {
@@ -18,12 +19,16 @@ public class Routine {
         routineTimes = new HashMap<>();
     }
 
-    public void addElement(RoutineElement element, RoutineTimeSpec timeSpec) throws ConflictingTimeSpecsException {
+    public ValidationResult validateTimeSpec(RoutineTimeSpec timeSpec){
         for (RoutineTimeSpec spec : routineTimes.keySet()){
             if (spec.isConflicting(timeSpec)){
-                throw new ConflictingTimeSpecsException("Conflicting time specs for elements of this routine");
+                return new ValidationResult(false, "There exists a confilcting routine element");
             }
         }
+        return new ValidationResult(true, "ok");
+    }
+
+    public void addElement(RoutineElement element, RoutineTimeSpec timeSpec) {
         routineTimes.put(timeSpec, element);
     }
 
@@ -54,6 +59,24 @@ public class Routine {
 
     public int getWeekCount(){
         return weekCount;
+    }
+
+    public Map<RoutineTimeSpec, RoutineElement> getRoutineTimes() {
+        return routineTimes;
+    }
+
+    public List<ElementTimePair> getDay(Weekday weekday, int weekNum){
+        List<ElementTimePair> elementTimePairs = new ArrayList<>();
+        for (Map.Entry<RoutineTimeSpec, RoutineElement> entry : routineTimes.entrySet()) {
+            RoutineTimeSpec spec = entry.getKey();
+            RoutineElement element = entry.getValue();
+            if (spec.weekday() == weekday && spec.weekNum() == weekNum) {
+                elementTimePairs.add(new ElementTimePair(element, spec));
+            }
+        }
+
+        elementTimePairs.sort(null);
+        return  elementTimePairs;
     }
 
 

@@ -1,28 +1,30 @@
+import controllers.RoutineViewController;
 import controllers.TaskViewController;
 import dao.DatabaseManager;
-import dao.TaskDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import model.Task;
-import model.TaskManager;
+import model.TaskService;
 
 import java.io.IOException;
 
 public class MainApp extends Application {
-
+    private DatabaseManager dbManager = new DatabaseManager();
+    private TaskService taskManager = new TaskService(dbManager.getConnection());
+    private StackPane root = new StackPane();
+    private Scene scene = new Scene(root, 1600, 1000);
+    private Stage primaryStage;
     @Override
     public void start(Stage primaryStage) throws IOException {
-        DatabaseManager dbManager = new DatabaseManager();
-        TaskManager taskManager = new TaskManager(dbManager.getConnection());
-
-        StackPane root = new StackPane();
-        Scene scene = new Scene(root, 1600, 1000);
+        this.primaryStage = primaryStage;
         scene.getStylesheets().add(getClass().getResource("style2.css").toExternalForm());
+        loadRoutineView();
+    }
 
+    public void loadTaskView() throws IOException{
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("taskview.fxml"));
         BorderPane taskView = loader.load();
@@ -35,7 +37,20 @@ public class MainApp extends Application {
         primaryStage.setTitle("Task Manager");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
 
-        // root.getChildren().add(tasksView); <- później po wczytaniu FXML
+    public void loadRoutineView() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getClassLoader().getResource("routineview.fxml"));
+        StackPane routineView = loader.load();
+
+        RoutineViewController routineController = loader.getController();
+
+
+        root.getChildren().addAll(routineView);
+        routineView.setVisible(true);
+        primaryStage.setTitle("Task Manager");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }

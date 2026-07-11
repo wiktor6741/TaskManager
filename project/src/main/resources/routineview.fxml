@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.Pane?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"  fx:controller="controllers.RoutineViewController">
+    <children>
+        <ScrollPane fitToWidth="true" fx:id="scrollPane">
+            <content>
+                <Pane fx:id="dayColumn"/>
+            </content>
+        </ScrollPane>
+    </children>
+</StackPane>
