@@ -34,4 +34,16 @@ public enum Weekday {
             case SUN -> "SUN";
         };
     }
+
+    public int toInt(){
+        return switch(this){
+            case MON -> 0;
+            case TUE -> 1;
+            case WED -> 2;
+            case THU -> 3;
+            case FRI -> 4;
+            case SAT -> 5;
+            case SUN -> 6;
+        };
+    }
 }

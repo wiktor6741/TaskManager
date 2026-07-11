@@ -2,13 +2,59 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Region?>
 
-<StackPane xmlns:fx="http://javafx.com/fxml"  fx:controller="controllers.RoutineViewController">
+<StackPane xmlns:fx="http://javafx.com/fxml"  fx:controller="controllers.RoutineViewController" fx:id="stackPane">
     <children>
-        <ScrollPane fitToWidth="true" fx:id="scrollPane">
-            <content>
-                <Pane fx:id="dayColumn"/>
-            </content>
-        </ScrollPane>
+        <BorderPane styleClass="BorderPane">
+            <top>
+                <VBox>
+                    <HBox>
+                        <Region prefWidth="50" minWidth="50"/>
+                        <HBox styleClass="weekday-box" HBox.hgrow="ALWAYS" prefWidth="0" maxWidth="Infinity">
+                            <Label text="MON">
+                            </Label>
+                        </HBox>
+                        <HBox styleClass="weekday-box" HBox.hgrow="ALWAYS"  prefWidth="0" maxWidth="Infinity">
+                            <Label text="TUE">
+                            </Label>
+                        </HBox>
+                        <HBox styleClass="weekday-box" HBox.hgrow="ALWAYS" prefWidth="0"  maxWidth="Infinity">
+                            <Label text="WED">
+                            </Label>
+                        </HBox>
+                        <HBox styleClass="weekday-box" HBox.hgrow="ALWAYS" prefWidth="0"  maxWidth="Infinity">
+                            <Label text="THU">
+                            </Label>
+                        </HBox>
+                        <HBox styleClass="weekday-box" HBox.hgrow="ALWAYS" prefWidth="0" maxWidth="Infinity">
+                            <Label text="FRI">
+                            </Label>
+                        </HBox>
+                        <HBox styleClass="weekday-box" HBox.hgrow="ALWAYS" prefWidth="0" maxWidth="Infinity">
+                            <Label text="SAT">
+                            </Label>
+                        </HBox>
+                        <HBox styleClass="weekday-box" HBox.hgrow="ALWAYS" prefWidth="0" maxWidth="Infinity">
+                            <Label text="SUN">
+                            </Label>
+                        </HBox>
+                        <Region prefWidth="15"/>
+                    </HBox>
+                    <Region prefHeight="0"></Region>
+                </VBox>
+            </top>
+            <center>
+                <ScrollPane fitToWidth="true" fx:id="scrollPane">
+                    <content>
+                        <Pane fx:id="dayColumn"/>
+                    </content>
+                </ScrollPane>
+            </center>
+        </BorderPane>
     </children>
 </StackPane>

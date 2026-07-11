@@ -8,6 +8,15 @@
     -fx-padding: 4 8 4 8;
 }
 
+.label-small {
+    -fx-font-family: "Helvetica Neue", "Arial", sans-serif;
+    -fx-font-size: 17px;
+    -fx-font-weight: 400;
+    -fx-text-fill: #e53e3e;
+    -fx-background-color: transparent;
+    -fx-padding: 4 8 4 8;
+}
+
 .error-message-label {
     -fx-font-family: "Helvetica Neue", "Arial", sans-serif;
     -fx-font-size: 11px;
@@ -17,7 +26,7 @@
 
 /* === LAYOUT === */
 BorderPane {
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #eef2ff, #f0f4ff);
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #d7ebf5, #f0f4ff);
 }
 
 .scroll-pane {
@@ -64,6 +73,23 @@ BorderPane {
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2);
 }
 
+.routine-box {
+    -fx-background-color: rgba(59, 164, 245, 0.75);
+    -fx-padding: 12 16 12 16;
+    -fx-spacing: -5;
+    -fx-alignment: top-left;
+    -fx-background-radius: 10;
+    -fx-border-color: rgba(200, 215, 255, 0.45);
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2);
+}
+
+.routine-box .label {
+    -fx-text-fill: #f0f2f1;
+}
+
+
 .task-box:hover {
     -fx-background-color: rgba(239, 246, 255, 0.9);
     -fx-border-color: rgba(147, 197, 253, 0.65);
@@ -87,6 +113,18 @@ BorderPane {
     -fx-border-width: 1;
     -fx-border-radius: 10;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2);
+}
+
+.weekday-box {
+        -fx-background-color: rgba(219, 234, 254, 0.95, 0.3);
+        -fx-padding: 12 16 12 16;
+        -fx-spacing: 10;
+        -fx-alignment: center-left;
+        -fx-background-radius: 10;
+        -fx-border-color: rgba(154, 219, 192, 0.45);
+        -fx-border-width: 2;
+        -fx-border-radius: 10;
+        -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2);
 }
 
 /* === DISPLAY SETTINGS BAR === */
@@ -265,4 +303,13 @@ BorderPane {
 
 .check-box:pressed > .box {
     -fx-background-color: #dbeafe;
+}
+
+.hour-line {
+    -fx-stroke: #dddddd;
+    -fx-stroke-width: 1;
+}
+.hour-label {
+    -fx-text-fill: #888888;
+    -fx-font-size: 11px;
 }
