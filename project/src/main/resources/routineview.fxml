@@ -45,7 +45,7 @@
                         </HBox>
                         <Region prefWidth="15"/>
                     </HBox>
-                    <Region prefHeight="0"></Region>
+                    <Region prefHeight="10"/>
                 </VBox>
             </top>
             <center>

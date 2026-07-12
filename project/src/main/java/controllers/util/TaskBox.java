@@ -58,7 +58,6 @@ public class TaskBox extends HBox {
 
         setOnMouseClicked(e -> { if (onClick != null) { onClick.accept(task); } });
 
-
     }
     public void setOnComplete(Consumer<Task> onComplete) {
         this.onComplete = onComplete;

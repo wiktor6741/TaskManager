@@ -1,16 +1,16 @@
 package controllers;
 
 import controllers.util.RoutineBox;
+import controllers.util.RoutinePopupBox;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
+import model.Routine;
 import model.RoutineElement;
+import util.ElementTimePair;
 import util.RoutineTimeSpec;
 import util.Weekday;
 
@@ -33,8 +33,7 @@ public class RoutineViewController {
         hourGrid = bg.gridArea();
         RoutineElement element = new RoutineElement("umyc zeby");
         RoutineTimeSpec timeSpec = new RoutineTimeSpec(LocalTime.of(15, 0), LocalTime.of(19, 30), Weekday.FRI, 1);
-        RoutineBox routineBox = new RoutineBox(element, timeSpec);
-        addRoutineBox(routineBox, LocalTime.of(15, 0), LocalTime.of(19, 30), Weekday.FRI);
+        addRoutineBox(new ElementTimePair(element, timeSpec));
 
         Platform.runLater(() -> {
             System.out.println("stackPane width: " + stackPane.getWidth());
@@ -79,23 +78,44 @@ public class RoutineViewController {
         return new CalendarBackground(background, gridArea);
     }
 
-    private void addRoutineBox(RoutineBox box, LocalTime start, LocalTime end, Weekday weekday) {
+    private void addRoutineBox(ElementTimePair pair) {
+        RoutineBox box = new RoutineBox(pair);
+        LocalTime start = pair.timeSpec().start();
+        LocalTime end = pair.timeSpec().end();
+        Weekday weekday = pair.timeSpec().weekday();
         double startY = timeToY(start);
         double endY = timeToY(end);
         double height = endY - startY;
         box.layoutXProperty().bind(hourGrid.widthProperty().divide(7).multiply(weekday.toInt()));
-        box.setLayoutY(startY);  // vertical position = start time, fixed
+        box.setLayoutY(startY);
 
-        box.setPrefHeight(height); // fixed height — duration doesn't change with window size
+        box.setPrefHeight(height);
 
-        // width scales with the grid's actual width, minus a small margin on both sides
         box.prefWidthProperty().bind(hourGrid.widthProperty().divide(7));
-
+        box.setOnClick(p -> {showEditPopup(p);});
         hourGrid.getChildren().add(box);
     }
 
     private double timeToY(LocalTime time) {
         return time.toSecondOfDay() / 3600.0 * HOUR_HEIGHT;
+    }
+
+    private void showEditPopup(ElementTimePair pair) {
+        // 1. Dimming overlay — covers the whole StackPane
+        Pane overlay = new Pane();
+        overlay.setStyle("-fx-background-color: rgba(0, 0, 0, 0.4);");
+        overlay.setPickOnBounds(true); // ensures clicks anywhere on it register, even on "empty" areas
+
+
+        RoutinePopupBox popup = new RoutinePopupBox(pair);
+        popup.setMaxSize(400, 300); // keeps it from stretching to fill the StackPane
+
+
+        // StackPane centers children by default — this popup will sit in the middle automatically
+        stackPane.getChildren().addAll(overlay, popup);
+
+        // click-outside-to-close: clicking the overlay (not the popup) removes both
+        overlay.setOnMouseClicked(e -> stackPane.getChildren().removeAll(overlay, popup));
     }
 
 }

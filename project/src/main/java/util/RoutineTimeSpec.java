@@ -10,4 +10,8 @@ public record RoutineTimeSpec(LocalTime start, LocalTime end, Weekday weekday, i
                     other.end().toSecondOfDay() > this.start.toSecondOfDay() &&
                     other.start.toSecondOfDay() < this.end.toSecondOfDay();
     }
+
+    public String toString(){
+        return weekday.toString() + " " + start.toString() + " - " + end.toString() + " week " + weekNum;
+    }
 }
