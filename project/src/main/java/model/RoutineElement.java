@@ -32,4 +32,9 @@ public class RoutineElement {
     public int getId(){
         return id;
     }
+
+    @Override
+    public String toString(){
+        return name;
+    }
 }

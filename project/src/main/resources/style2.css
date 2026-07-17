@@ -17,12 +17,15 @@
     -fx-padding: 4 8 4 8;
 }
 
+
+
 .error-message-label {
     -fx-font-family: "Helvetica Neue", "Arial", sans-serif;
     -fx-font-size: 11px;
-    -fx-text-fill: #e53e3e;
+    -fx-text-fill: #e53e3e !important;
     -fx-background-color: transparent;
 }
+
 
 /* === LAYOUT === */
 BorderPane {
@@ -81,7 +84,7 @@ BorderPane {
 
 .routine-box {
     -fx-background-color: rgba(59, 164, 245, 0.75);
-    -fx-padding: 16 16 12 16;
+    -fx-padding: 16 16 16 16;
     -fx-spacing: -5;
     -fx-alignment: top-left;
     -fx-background-radius: 10;
@@ -91,10 +94,9 @@ BorderPane {
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2);
 }
 
-.routine-popup-box {
+.popup-box {
     -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #d7ebf5, #f0f4ff);
     -fx-padding: 16 16 16 16;
-    -fx-spacing: -10;
     -fx-alignment: top-left;
     -fx-background-radius: 10;
     -fx-border-color: rgba(5, 5, 5, 1);
@@ -102,9 +104,16 @@ BorderPane {
     -fx-border-radius: 10;
 }
 
-.routine-popup-box .label {
+.popup-box .label {
     -fx-font-size: 23px;
     -fx-text-fill: #000000;
+}
+
+.popup-box .error-message-label {
+    -fx-font-family: "Helvetica Neue", "Arial", sans-serif;
+    -fx-font-size: 11px;
+    -fx-text-fill: #e53e3e;
+    -fx-background-color: transparent;
 }
 
 .routine-box .label {
@@ -204,6 +213,9 @@ BorderPane {
     -fx-effect: none;
 }
 
+
+
+
 /* === TEXT FIELDS === */
 .text-field {
     -fx-font-family: "Helvetica Neue", "Arial", sans-serif;
@@ -223,6 +235,8 @@ BorderPane {
     -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.2), 6, 0, 0, 0);
 }
 
+
+
 /* === COMBO BOX === */
 .combo-box {
     -fx-background-color: rgba(255, 255, 255, 0.9);
@@ -231,6 +245,7 @@ BorderPane {
     -fx-border-width: 1.5;
     -fx-border-radius: 8;
 }
+
 
 .combo-box:focused {
     -fx-border-color: #3b82f6;
@@ -262,6 +277,7 @@ BorderPane {
     -fx-background-color: #dbeafe;
     -fx-text-fill: #1e40af;
 }
+
 
 /* === DATE PICKER === */
 .date-picker {

@@ -1,6 +1,5 @@
-package mainapp;
-
 import javafx.application.Application;
+import mainapp.MainApp;
 
 
 public class AppLauncher {

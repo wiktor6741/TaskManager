@@ -71,7 +71,7 @@ public class RoutineDAO {
                 SET
                     ElementName = ?,
                     Description = ?
-                WHERE RoutineElementID =?
+                WHERE RoutineElementID = ?
                 """;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)){
@@ -126,7 +126,7 @@ public class RoutineDAO {
 
     public void deleteRoutine(int id){
         String sql = """
-                DELETE FROM Routine
+                DELETE FROM Routines
                 WHERE RoutineID = ?
                 """;
 
@@ -140,8 +140,9 @@ public class RoutineDAO {
     }
 
     public void updateRoutine(Routine routine){
+        System.out.println("DAO updating routine " + routine.getName());
         String sql = """
-                UPDATE RoutineElements
+                UPDATE Routines
                 SET
                     RoutineName = ?,
                     WeekCount = ?

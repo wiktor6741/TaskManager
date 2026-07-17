@@ -3,6 +3,7 @@ package controllers;
 import controllers.util.ImportanceIndicator;
 import controllers.util.ImportanceSelector;
 import javafx.animation.PauseTransition;
+import mainapp.MainApp;
 import util.DurationStringFormatter;
 import util.OperationMode;
 import controllers.util.TaskBox;
@@ -17,6 +18,7 @@ import model.Task;
 import model.TaskService;
 import util.SortingMode;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -49,7 +51,7 @@ public class TaskViewController {
     @FXML
     private Button newTaskButton, editTaskButton, saveButton, cancelButton, categorySaveButton, categoryCancelButton,
             addCategoryButton, editCategoryButton, categoryMenuButton, taskMenuButton, deleteTaskButton, taskDeleteYesButton,
-            taskDeleteNoButton, deleteCategoryButton;
+            taskDeleteNoButton, deleteCategoryButton, routineViewButton;
 
     private ImportanceSelector importanceSelector;
 
@@ -58,6 +60,8 @@ public class TaskViewController {
     private List<Node> taskInfoNodes, taskCreateNodes, categoryInfoNodes, categoryCreateNodes;
 
     private TaskService taskManager;
+
+    private MainApp mainApp;
 
     private ImportanceIndicator taskInfoImportanceIndicator;
 
@@ -201,9 +205,16 @@ public class TaskViewController {
         taskDeleteNoButton.setOnMouseClicked(_ -> {taskDeleteConfirmationHBox.setVisible(false); taskDeleteConfirmationHBox.setManaged(false);});
         taskDeleteYesButton.setOnMouseClicked(_ -> {deleteTask(); taskDeleteConfirmationHBox.setVisible(false); taskDeleteConfirmationHBox.setManaged(false);});
         deleteCategoryButton.setOnMouseClicked(_ -> handleDeleteCategoryButton());
+        routineViewButton.setOnMouseClicked(_ -> {
+            try {
+                mainApp.loadRoutineView();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
-    public void init(TaskService taskManager){
+    public void init(TaskService taskManager, MainApp mainApp){
         this.taskManager = taskManager;
         reloadTasks();
 
@@ -215,6 +226,8 @@ public class TaskViewController {
         }
 
         sortingModeComboBox.setValue(PRIORITY);
+
+        this.mainApp = mainApp;
     }
 
     private TaskBox addTaskBox(Task task){

@@ -14,4 +14,11 @@ public record RoutineTimeSpec(LocalTime start, LocalTime end, Weekday weekday, i
     public String toString(){
         return weekday.toString() + " " + start.toString() + " - " + end.toString() + " week " + weekNum;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof RoutineTimeSpec other)) return false;
+        return weekday == other.weekday && weekNum == other.weekNum
+                && start.equals(other.start) && end.equals(other.end);
+    }
 }

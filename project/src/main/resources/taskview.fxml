@@ -22,6 +22,7 @@
                 <Region HBox.hgrow="ALWAYS"/>
                 <Label text="Sort by:"/>
                 <ComboBox fx:id="sortingModeComboBox"/>
+                <Button fx:id="routineViewButton" text="Routine Menu ▶"/>
             </HBox>
             <ScrollPane fx:id="taskScroll" fitToWidth="true" prefWidth="800">
                 <content>

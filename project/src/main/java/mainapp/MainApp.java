@@ -1,3 +1,5 @@
+package mainapp;
+
 import controllers.RoutineViewController;
 import controllers.TaskViewController;
 import dao.DatabaseManager;
@@ -22,23 +24,22 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         this.primaryStage = primaryStage;
-        scene.getStylesheets().add(getClass().getResource("style2.css").toExternalForm());
-        loadTaskView();
+        scene.getStylesheets().add(getClass().getClassLoader().getResource("style2.css").toExternalForm());
+        primaryStage.setTitle("Task Manager");
+        primaryStage.setScene(scene);
+        loadRoutineView();
+        primaryStage.show();
     }
 
-    public void loadTaskView() throws IOException{
+    public void loadTaskView() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("taskview.fxml"));
         BorderPane taskView = loader.load();
 
         TaskViewController taskController = loader.getController();
-        taskController.init(taskManager);
+        taskController.init(taskManager, this);
 
-        root.getChildren().addAll(taskView);
-        taskView.setVisible(true);
-        primaryStage.setTitle("Task Manager");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        root.getChildren().setAll(taskView); // setAll — replaces instead of stacking
     }
 
     public void loadRoutineView() throws IOException {
@@ -47,11 +48,8 @@ public class MainApp extends Application {
         StackPane routineView = loader.load();
 
         RoutineViewController routineController = loader.getController();
-        routineController.init(routineService);
-        root.getChildren().addAll(routineView);
-        routineView.setVisible(true);
-        primaryStage.setTitle("Task Manager");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        routineController.init(routineService, this);
+
+        root.getChildren().setAll(routineView); // setAll — replaces instead of stacking
     }
 }
