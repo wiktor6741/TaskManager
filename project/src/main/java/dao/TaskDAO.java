@@ -92,7 +92,7 @@ public class TaskDAO {
             VALUES (?, ?, ?, ?, ?, ?, ?)
             """;
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             if (task.getCategoryID() != null) {
                 ps.setInt(1, task.getCategoryID());
             } else {

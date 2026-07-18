@@ -10,28 +10,28 @@ CREATE TABLE IF NOT EXISTS Categories (
 
 CREATE TABLE IF NOT EXISTS Routines (
                                         RoutineID INTEGER PRIMARY KEY,
-                                        RoutineName TEXT NOT NULL UNIQUE
+                                        RoutineName TEXT NOT NULL UNIQUE,
+                                        WeekCount INTEGER NOT NULL
 );
 
 
 CREATE TABLE IF NOT EXISTS RoutineElements (
                                                RoutineElementID INTEGER PRIMARY KEY,
-                                               ElementName TEXT NOT NULL
+                                               ElementName TEXT NOT NULL,
+                                               Description TEXT
 );
 
 
 CREATE TABLE IF NOT EXISTS RoutineTimes (
                                             RoutineID INTEGER NOT NULL,
                                             RoutineElementID INTEGER NOT NULL,
+                                            WeekNum INTEGER NOT NULL,
                                             Weekday TEXT NOT NULL
                                                 CHECK (Weekday IN ('MON','TUE','WED','THU','FRI','SAT','SUN')),
-                                            StartMinute INTEGER NOT NULL
-                                                CHECK (StartMinute BETWEEN 0 AND 1440),
-                                            EndMinute INTEGER NOT NULL
-                                                CHECK (EndMinute BETWEEN 0 AND 1440),
-                                            CHECK (EndMinute > StartMinute),
+                                            StartTime TEXT NOT NULL,
+                                            EndTime TEXT NOT NULL,
 
-                                            PRIMARY KEY (RoutineID, Weekday, StartMinute),
+                                            PRIMARY KEY (RoutineID, WeekNum, Weekday, StartTime),
 
                                             FOREIGN KEY (RoutineID)
                                                 REFERENCES Routines(RoutineID)

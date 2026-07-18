@@ -1,0 +1,24 @@
+package util;
+
+import model.Routine;
+
+import java.time.LocalTime;
+
+public record RoutineTimeSpec(LocalTime start, LocalTime end, Weekday weekday, int weekNum) {
+    public boolean isConflicting(RoutineTimeSpec other) {
+            return other.weekday == this.weekday && other.weekNum == this.weekNum &&
+                    other.end().toSecondOfDay() > this.start.toSecondOfDay() &&
+                    other.start.toSecondOfDay() < this.end.toSecondOfDay();
+    }
+
+    public String toString(){
+        return weekday.toString() + " " + start.toString() + " - " + end.toString() + " week " + weekNum;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof RoutineTimeSpec other)) return false;
+        return weekday == other.weekday && weekNum == other.weekNum
+                && start.equals(other.start) && end.equals(other.end);
+    }
+}

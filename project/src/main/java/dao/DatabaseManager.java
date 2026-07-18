@@ -45,6 +45,7 @@ public class DatabaseManager {
                 String[] statements = sql.split(";");
                 for (String statement : statements) {
                     if (!statement.trim().isEmpty()) {
+                        System.out.println(statement);
                         stmt.execute(statement);
                     }
                 }

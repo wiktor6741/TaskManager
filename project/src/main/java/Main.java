@@ -1,32 +1,62 @@
 import dao.CategoryDAO;
 import dao.DatabaseManager;
+import dao.RoutineDAO;
 import dao.TaskDAO;
-import model.Category;
-import model.Task;
+import model.*;
+import util.ConflictingTimeSpecsException;
+import util.RoutineTimeSpec;
+import util.Weekday;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     static DatabaseManager dbManager = new DatabaseManager();
     static Connection conn = dbManager.getConnection();
     static CategoryDAO categoryDAO = new CategoryDAO(conn);
     static TaskDAO taskDAO = new TaskDAO(conn);
+    static RoutineService routineService = new RoutineService(conn);
+    static RoutineDAO routineDAO = new RoutineDAO(conn);
 
     public void main() {
-        clear();
-        taskAdditions();
-        categoryAdditions();
-        taskModifications();
-        categoryAssignments();
-        printTasks();
-        printCategories();
-        printCategoryTasks(1);
-
+        routineService.clear();
+        routineSetup();
+        routineElementAssignments();
     }
 
+    public void routineSetup(){
+        try {
+            Routine routine = routineService.createRoutine("Rutyna bambika", 1);
+            Routine routine1 = routineService.createRoutine("Rutyna bambika 1", 2);
+            RoutineElement element = routineService.createRoutineElement("Element bambika");
+            RoutineElement element1 = routineService.createRoutineElement("Element bambika 1");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void routineElementAssignments(){
+        List<Routine> routines = routineService.getRoutineList();
+        List<RoutineElement> elements = routineService.getRoutineElementList();
+        LocalTime start1 = LocalTime.of(7, 30);
+        LocalTime end1 = LocalTime.of(9, 30);
+        LocalTime start2 = LocalTime.of(13, 30);
+        LocalTime end2 = LocalTime.of(15, 30);
+        RoutineTimeSpec timeSpec1 = new RoutineTimeSpec(start1, end1, Weekday.MON, 1);
+        RoutineTimeSpec timeSpec2 = new RoutineTimeSpec(start2, end2, Weekday.THU, 2);
+        try {
+            routineService.assignRoutineElement(routines.get(0), elements.get(0), timeSpec1);
+            routineService.assignRoutineElement(routines.get(1), elements.get(1), timeSpec2);
+            routineService.assignRoutineElementDaily(routines.get(1), elements.get(0), start1, end1);
+        } catch (ConflictingTimeSpecsException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void taskAdditions(){
         for (int i = 0; i < 8; i++) {
