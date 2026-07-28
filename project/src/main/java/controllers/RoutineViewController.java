@@ -51,12 +51,6 @@ public class RoutineViewController {
         hourGrid = bg.gridArea();
         routineBoxes = new ArrayList<>();
 
-        Platform.runLater(() -> {
-            System.out.println("stackPane width: " + stackPane.getWidth());
-            System.out.println("ScrollPane width: " + scrollPane.getWidth());
-            System.out.println("hourgrid width: " + hourGrid.getWidth());
-        });
-
         weekUpButton.setOnMouseClicked(e -> incrementWeek());
         weekDownButton.setOnMouseClicked(e -> decrementWeek());
         backButton.setOnMouseClicked(e -> {
@@ -93,7 +87,6 @@ public class RoutineViewController {
         clearRoutineBoxes();
         List<ElementTimePair> pairs = routineService.getWeek();
         weekNumLabel.setText("Week " + routineService.getWeekNum());
-        System.out.println("Weeknum in loadweek: " + routineService.getWeekNum());
         if (pairs != null){
             for (ElementTimePair pair : pairs){
                 addRoutineBox(pair);
@@ -160,7 +153,6 @@ public class RoutineViewController {
     }
 
     private void addRoutineBox(ElementTimePair pair) {
-        System.out.println("adding box for element " + pair.element().getName() + "at time " + pair.timeSpec());
         LocalTime start = pair.timeSpec().start();
         LocalTime end = pair.timeSpec().end();
         Weekday weekday = pair.timeSpec().weekday();

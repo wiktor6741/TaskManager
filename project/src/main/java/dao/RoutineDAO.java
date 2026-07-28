@@ -140,7 +140,6 @@ public class RoutineDAO {
     }
 
     public void updateRoutine(Routine routine){
-        System.out.println("DAO updating routine " + routine.getName());
         String sql = """
                 UPDATE Routines
                 SET

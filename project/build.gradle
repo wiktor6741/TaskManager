@@ -2,10 +2,11 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.1.0'
     id 'application'
     id 'java'
+    id 'com.gradleup.shadow' version '8.3.0' // or latest
 }
 
 group = 'org.example'
-version = '1.0-SNAPSHOT'
+version = '2.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
