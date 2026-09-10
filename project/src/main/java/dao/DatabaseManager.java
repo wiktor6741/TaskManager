@@ -40,11 +40,14 @@ public class DatabaseManager {
             try (Statement pragma = conn.createStatement()) {
                 pragma.execute("PRAGMA foreign_keys = ON;");
             }
+            System.out.println("Connection achieved");
+            setupOrMigrate();
 
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Błąd inicjalizacji bazy danych", e);
         }
+
     }
 
     private boolean isFreshDatabase() throws SQLException {
@@ -57,42 +60,45 @@ public class DatabaseManager {
     }
 
     private void setupOrMigrate() throws SQLException, IOException {
-        if (isFreshDatabase()){
-            runScript("schema" + schemaVersion + ".sql") ;
-        }
-        else {
-            int currentSchemaVersion = getSchemaVersion(conn);
-            while (currentSchemaVersion != schemaVersion) {
+        int currentUserVersion;
 
-            }
+        if (isFreshDatabase()) {
+            runScript("schema.sql");
+            currentUserVersion = 0;
+        } else {
+            currentUserVersion = getSchemaVersion(conn);
         }
-
+        while (currentUserVersion < schemaVersion){
+            System.out.println("Current user version: " + currentUserVersion);
+            applyMigration(++currentUserVersion);
+        }
     }
 
     private void applyMigration(int goalVersion){
-
+        try{
+            switch (goalVersion){
+                case 1:
+                    runScript("v0tov1.sql");
+                    break;
+                default:
+                    throw new RuntimeException("No such schema version: " + goalVersion);
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException("Failed to migrate to version " + goalVersion);
+        }
+        System.out.println("Migration successful current version:" + goalVersion);
     }
 
     private void runScript(String resourcePath) throws SQLException, IOException {
         String sql;
-
-        try (InputStream is = getClass().getClassLoader()
-                .getResourceAsStream(resourcePath)) {
-
-            if (is == null) {
-                throw new RuntimeException("Resource not found: " + resourcePath);
-            }
-
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream(resourcePath)) {
+            if (is == null) throw new RuntimeException("Resource not found: " + resourcePath);
             sql = new String(is.readAllBytes(), StandardCharsets.UTF_8);
         }
 
         try (Statement stmt = conn.createStatement()) {
-            String[] statements = sql.split(";");
-            for (String statement : statements) {
-                if (!statement.trim().isEmpty()) {
-                    stmt.execute(statement);
-                }
-            }
+            stmt.executeUpdate(sql);
         }
     }
 

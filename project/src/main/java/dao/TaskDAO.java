@@ -11,7 +11,7 @@ import java.util.List;
 public class TaskDAO {
     private final Connection conn;
 
-    public TaskDAO(Connection conn){
+    public TaskDAO(Connection conn) {
         this.conn = conn;
     }
 
@@ -28,18 +28,18 @@ public class TaskDAO {
             try (ResultSet rs = ps.executeQuery()) {
 
                 while (rs.next()) {
-                    Task task = new Task(rs.getString("TaskName"));
+                    Task task = new Task(rs.getString("task_name"));
 
-                    task.setId(rs.getInt("TaskID"));
+                    task.setId(rs.getInt("task_id"));
 
-                    Integer categoryId = rs.getInt("CategoryID");
+                    Integer categoryId = rs.getInt("category_id");
 
                     if (rs.wasNull()) {
                         categoryId = null;
                     }
                     task.setCategoryID(categoryId);
 
-                    Integer priority = rs.getInt("Priority");
+                    Integer priority = rs.getInt("priority");
 
                     if (rs.wasNull()) {
                         priority = null;
@@ -47,11 +47,11 @@ public class TaskDAO {
 
                     task.setPriority(priority);
 
-                    task.setDescription(rs.getString("Description"));
+                    task.setDescription(rs.getString("description"));
 
-                    String durationString = rs.getString("ExpectedDuration");
-                    String goalETString = rs.getString("GoalEndTime");
-                    String deadlineString = rs.getString("Deadline");
+                    String durationString = rs.getString("expected_duration");
+                    String goalETString = rs.getString("goal_end_time");
+                    String deadlineString = rs.getString("deadline");
 
                     if (durationString != null) {
                         task.setExpectedDuration(Duration.parse(durationString));
@@ -76,19 +76,25 @@ public class TaskDAO {
         return tasks;
     }
 
-    public List<Task> getAllTasks(){
-        return getQueryTasks("SELECT * FROM Tasks");
+    public List<Task> getActiveTasks() {
+        return getQueryTasks("SELECT * FROM tasks " +
+                "WHERE deleted_at IS NULL AND completed_at IS NULL");
+    }
+
+    public List<Task> getCompletedTasks() {
+        return getQueryTasks("SELECT * FROM tasks " +
+                "WHERE completed_at IS NOT NULL");
     }
 
     public List<Task> getCategoryTasks(Integer CategoryID){
-        return getQueryTasks("SELECT * FROM Tasks WHERE CategoryID = ?",
+        return getQueryTasks("SELECT * FROM tasks WHERE category_id = ?",
                 CategoryID);
     }
 
     public void addTask(Task task){
         String sql = """
             INSERT INTO Tasks 
-            (CategoryID, TaskName, Description, ExpectedDuration, GoalEndTime, Deadline, Priority)
+            (category_id, task_name, description, expected_duration, goal_end_time, deadline, priority)
             VALUES (?, ?, ?, ?, ?, ?, ?)
             """;
 
@@ -121,8 +127,25 @@ public class TaskDAO {
 
     public void deleteTask(int id)  {
         String sql = """
-                DELETE FROM TASKS
-                WHERE TaskID = ?
+                UPDATE tasks
+                SET deleted_at = strftime('%Y-%m-%dT%H:%M:00', 'now')
+                WHERE task_id = ?
+                """;
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void completeTask(int id)  {
+        String sql = """
+                UPDATE tasks
+                SET completed_at = strftime('%Y-%m-%dT%H:%M:00', 'now')
+                WHERE task_id = ?
                 """;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)){
@@ -138,14 +161,14 @@ public class TaskDAO {
         String sql = """
                 UPDATE Tasks
                 SET
-                    CategoryID = ?,
-                    TaskName = ?,
-                    Description = ?,
-                    ExpectedDuration = ?,
-                    GoalEndTime = ?,
-                    Deadline = ?,
-                    Priority = ?
-                WHERE TaskID = ?""";
+                    category_id = ?,
+                    task_name = ?,
+                    description = ?,
+                    expected_duration = ?,
+                    goal_end_time = ?,
+                    deadline = ?,
+                    priority = ?
+                WHERE task_id = ?""";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)){
             if (task.getCategoryID() != null) {
@@ -173,7 +196,7 @@ public class TaskDAO {
     }
 
     public void clear(){
-        String sql = "DELETE FROM Tasks";
+        String sql = "DELETE FROM tasks";
         try (Statement stmt = conn.createStatement()){
             stmt.executeUpdate(sql);
         }catch (Exception e){

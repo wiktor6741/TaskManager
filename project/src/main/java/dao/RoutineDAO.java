@@ -19,17 +19,17 @@ public class RoutineDAO {
     }
 
     public Map<Integer,RoutineElement> getAllRoutineElements() {
-        String sql = "SELECT * FROM RoutineElements";
+        String sql = "SELECT * FROM routine_elements WHERE deleted_at IS NULL";
         Map<Integer,RoutineElement> routineElements = new HashMap<>();
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    RoutineElement routineElement = new RoutineElement(rs.getString("ElementName"));
-                    int id = rs.getInt("RoutineElementID");
+                    RoutineElement routineElement = new RoutineElement(rs.getString("element_name"));
+                    int id = rs.getInt("routine_element_id");
                     routineElement.setId(id);
-                    routineElement.setDesc(rs.getString("Description"));
+                    routineElement.setDesc(rs.getString("description"));
                     routineElements.put(id ,routineElement);
                 }
             }
@@ -44,8 +44,8 @@ public class RoutineDAO {
 
     public void addRoutineElement(RoutineElement element){
         String sql = """
-                INSERT INTO RoutineElements
-                (ElementName, Description)
+                INSERT INTO routine_elements
+                (element_name, description)
                 VALUES (?, ?)
                 """;
 
@@ -67,11 +67,11 @@ public class RoutineDAO {
 
     public void updateRoutineElement(RoutineElement element){
         String sql = """
-                UPDATE RoutineElements
+                UPDATE routine_elements
                 SET
-                    ElementName = ?,
-                    Description = ?
-                WHERE RoutineElementID = ?
+                    element_name = ?,
+                    description = ?
+                WHERE routine_element_id = ?
                 """;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)){
@@ -88,8 +88,9 @@ public class RoutineDAO {
 
     public void deleteRoutineElement(int id){
         String sql = """
-                DELETE FROM RoutineElements
-                WHERE RoutineElementID = ?
+                UPDATE routine_elements
+                SET deleted_at = strftime('%Y-%m-%dT%H:%M:00', 'now')
+                WHERE routine_element_id = ?
                 """;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)){
@@ -103,8 +104,8 @@ public class RoutineDAO {
 
     public void addRoutine(Routine routine){
         String sql = """
-                INSERT INTO Routines
-                (RoutineName, WeekCount)
+                INSERT INTO routines
+                (routine_name, week_count)
                 VALUES (?, ?)""";
 
 
@@ -126,8 +127,9 @@ public class RoutineDAO {
 
     public void deleteRoutine(int id){
         String sql = """
-                DELETE FROM Routines
-                WHERE RoutineID = ?
+                UPDATE routines
+                SET deleted_at = strftime('%Y-%m-%dT%H:%M:00', 'now')
+                WHERE routine_id = ?
                 """;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)){
@@ -141,11 +143,11 @@ public class RoutineDAO {
 
     public void updateRoutine(Routine routine){
         String sql = """
-                UPDATE Routines
+                UPDATE routines
                 SET
-                    RoutineName = ?,
-                    WeekCount = ?
-                WHERE RoutineID =?
+                    routine_name = ?,
+                    week_count = ?
+                WHERE routine_id =?
                 """;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)){
@@ -161,15 +163,15 @@ public class RoutineDAO {
     }
 
     private Map<Integer, Routine> getAllRoutinesEmpty() {
-        String sql = "SELECT * FROM Routines";
+        String sql = "SELECT * FROM routines WHERE deleted_at IS NULL";
         Map<Integer, Routine> routineIdMap = new HashMap<>();
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    Integer id = rs.getInt("RoutineID");
-                    String name = rs.getString("RoutineName");
-                    int weekCount = rs.getInt("WeekCount");
+                    Integer id = rs.getInt("routine_id");
+                    String name = rs.getString("routine_name");
+                    int weekCount = rs.getInt("week_count");
                     Routine routine = new Routine(weekCount, name);
                     routine.setId(id);
 
@@ -187,20 +189,20 @@ public class RoutineDAO {
 
     public Map<Integer, Routine> getAllRoutines(Map<Integer, RoutineElement> routineElementsIdMap){
         Map<Integer, Routine> routineIdMap = getAllRoutinesEmpty();
-        String sql = "SELECT * FROM RoutineTimes";
+        String sql = "SELECT * FROM routine_times WHERE deleted_at IS NULL";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
             try (ResultSet rs = ps.executeQuery()){
                 while (rs.next()) {
-                    LocalTime startTime = LocalTime.parse(rs.getString("StartTime"));
-                    LocalTime endTime = LocalTime.parse(rs.getString("EndTime"));
-                    Weekday weekday = Weekday.parse(rs.getString("Weekday"));
-                    int weeknum = rs.getInt("WeekNum");
+                    LocalTime startTime = LocalTime.parse(rs.getString("start_time"));
+                    LocalTime endTime = LocalTime.parse(rs.getString("end_time"));
+                    Weekday weekday = Weekday.parse(rs.getString("weekday"));
+                    int weeknum = rs.getInt("week_num");
                     RoutineTimeSpec timeSpec = new RoutineTimeSpec(startTime, endTime, weekday, weeknum);
 
-                    Integer routineID = rs.getInt("RoutineID");
-                    Integer routineElementID = rs.getInt("RoutineElementID");
+                    Integer routineID = rs.getInt("routine_id");
+                    Integer routineElementID = rs.getInt("routine_element_id");
 
                     RoutineElement routineElement = routineElementsIdMap.get(routineElementID);
                     Routine routine = routineIdMap.get(routineID);
@@ -217,8 +219,8 @@ public class RoutineDAO {
 
     public void addElementToRoutine(Routine routine, RoutineElement element, RoutineTimeSpec timeSpec){
         String sql = """
-                INSERT INTO RoutineTimes
-                (RoutineID, RoutineElementID, WeekNum, Weekday, StartTime, EndTime)
+                INSERT INTO routine_times
+                (routine_id, routine_element_id, week_num, weekday, start_time, end_time)
                 VALUES (?, ?, ?, ?, ?, ?)""";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)){
@@ -238,8 +240,9 @@ public class RoutineDAO {
 
     public void deleteElementFromRoutine(Routine routine, RoutineTimeSpec timeSpec){
         String sql = """
-                DELETE FROM RoutineTimes
-                WHERE RoutineID = ? AND WeekNum = ? AND Weekday = ? AND StartTime = ?""";
+                UPDATE routine_times
+                SET deleted_at = strftime('%Y-%m-%dT%H:%M:00', 'now')
+                WHERE routine_id = ? AND week_num = ? AND weekday = ? AND start_time = ?""";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setInt(1, routine.getId());
@@ -255,9 +258,9 @@ public class RoutineDAO {
 
     public void clear() {
         String[] statements = {
-                "DELETE FROM RoutineTimes",
-                "DELETE FROM Routines",
-                "DELETE FROM RoutineElements"
+                "DELETE FROM routine_times",
+                "DELETE FROM routines",
+                "DELETE FROM routine_elements"
         };
 
         try (Statement stmt = conn.createStatement()) {

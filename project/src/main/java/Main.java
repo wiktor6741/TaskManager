@@ -13,7 +13,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Map;
 
 public class Main {
     static DatabaseManager dbManager = new DatabaseManager();
@@ -73,7 +72,7 @@ public class Main {
     }
 
     public void taskModifications(){
-        List<Task> tasks = taskDAO.getAllTasks();
+        List<Task> tasks = taskDAO.getActiveTasks();
         Task taskToEdit = tasks.get(0);
         taskToEdit.setDescription("blablable");
         taskToEdit.setName("taskito");
@@ -82,7 +81,7 @@ public class Main {
     }
 
     public void categoryAssignments(){
-        List<Task> tasks = taskDAO.getAllTasks();
+        List<Task> tasks = taskDAO.getActiveTasks();
         Task task = tasks.get(0);
 
         List<Category> categories = categoryDAO.getAllCategories();
@@ -98,7 +97,7 @@ public class Main {
     }
 
     public void printTasks(){
-        List<Task> tasks = taskDAO.getAllTasks();
+        List<Task> tasks = taskDAO.getActiveTasks();
         for (Task t : tasks){
             System.out.println(t);
         }

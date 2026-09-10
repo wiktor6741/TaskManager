@@ -59,7 +59,7 @@ public class TaskViewController {
 
     private List<Node> taskInfoNodes, taskCreateNodes, categoryInfoNodes, categoryCreateNodes;
 
-    private TaskService taskManager;
+    private TaskService taskService;
 
     private MainApp mainApp;
 
@@ -215,7 +215,7 @@ public class TaskViewController {
     }
 
     public void init(TaskService taskManager, MainApp mainApp){
-        this.taskManager = taskManager;
+        this.taskService = taskManager;
         reloadTasks();
 
         for (Category c : taskManager.getCategoryList()){
@@ -240,7 +240,7 @@ public class TaskViewController {
         taskBox.setOnComplete(t -> {
             PauseTransition pause = new PauseTransition(javafx.util.Duration.seconds(0.5));
             pause.setOnFinished(event -> {
-                taskManager.deleteTask(t);
+                taskService.completeTask(t);
                 reloadTasks();
             });
             pause.play();
@@ -267,12 +267,12 @@ public class TaskViewController {
     private void reloadTasks(Task taskToSelect){
         taskVBox.getChildren().clear();
         switch (sortingMode){
-            case PRIORITY -> taskManager.sortByPriority();
-            case DEADLINE -> taskManager.sortByDeadline();
-            case PRIORITY_THEN_DEADLINE -> taskManager.sortByPriorityAndDeadline();
-            case DEADLINE_THEN_PRIORITY -> taskManager.sortByDeadlineAndPriority();
+            case PRIORITY -> taskService.sortByPriority();
+            case DEADLINE -> taskService.sortByDeadline();
+            case PRIORITY_THEN_DEADLINE -> taskService.sortByPriorityAndDeadline();
+            case DEADLINE_THEN_PRIORITY -> taskService.sortByDeadlineAndPriority();
         }
-        List<Task> tasks = taskManager.getTasks();
+        List<Task> tasks = taskService.getTasks();
         if (tasks.isEmpty()){
             selectedTaskBox = null;
             Task exanpleTask = new Task("Add your first task!");
@@ -304,7 +304,7 @@ public class TaskViewController {
 
 
         if (task.getCategoryID() != null) {
-            categoryLabel.setText(taskManager.getTaskCategory(task).getName());
+            categoryLabel.setText(taskService.getTaskCategory(task).getName());
         }
 
         if (task.getGoalEndTime() != null){
@@ -365,7 +365,7 @@ public class TaskViewController {
         flushInput();
         Task task = selectedTaskBox.getTask();
         nameTextField.setText(task.getName());
-        categoryComboBox.setValue(taskManager.getTaskCategory(task));
+        categoryComboBox.setValue(taskService.getTaskCategory(task));
         importanceSelector.setValue((task.getPriority() == null) ? 0 : task.getPriority());
 
         LocalDateTime goalEndTime = task.getGoalEndTime();
@@ -469,9 +469,9 @@ public class TaskViewController {
 
         if (task != null) {
             feedInputDataToTask(task);
-            if (taskManager.validateTask(task, mode).isValid()){
-                if (mode == TASK_CREATE) taskManager.addTask(task);
-                if (mode == TASK_EDIT) taskManager.editTask(task);
+            if (taskService.validateTask(task, mode).isValid()){
+                if (mode == TASK_CREATE) taskService.addTask(task);
+                if (mode == TASK_EDIT) taskService.editTask(task);
 
                 displayTaskInfo(task);
                 toggleInfoMode();
@@ -481,18 +481,18 @@ public class TaskViewController {
             } else{
                 taskSaveErrorHBox.setVisible(true);
                 taskSaveErrorHBox.setManaged(true);
-                taskSaveErrorMessageLabel.setText(taskManager.validateTask(task, mode).message());
+                taskSaveErrorMessageLabel.setText(taskService.validateTask(task, mode).message());
             }
         }
     }
 
     private void handleCategoryChange(){
         if (categoryViewComboBox.getValue() == ALL_CATEGORY){
-            taskManager.getAllTasks();
+            taskService.getAllTasks();
             reloadTasks();
         } else {
             Category category = categoryViewComboBox.getValue();
-            taskManager.toggleCategory(category.getId());
+            taskService.toggleCategory(category.getId());
             reloadTasks();
         }
     }
@@ -582,16 +582,16 @@ public class TaskViewController {
         feedInputIntoCategory(category);
         System.out.println(category.getName());
 
-        if (category != null && taskManager.validateCategory(category, mode).isValid()){
-            if (mode == CATEGORY_CREATE) taskManager.addCategory(category);
-            if (mode == CATEGORY_EDIT) taskManager.editCategory(category);
+        if (category != null && taskService.validateCategory(category, mode).isValid()){
+            if (mode == CATEGORY_CREATE) taskService.addCategory(category);
+            if (mode == CATEGORY_EDIT) taskService.editCategory(category);
             toggleCategoryInfoMode();
             reloadCategories();
             reloadTasks();
          }else{
             categorySaveErrorHBox.setVisible(true);
             categorySaveErrorHBox.setManaged(true);
-            categorySaveErrorMessageLabel.setText(taskManager.validateCategory(category, mode).message());
+            categorySaveErrorMessageLabel.setText(taskService.validateCategory(category, mode).message());
         }
     }
 
@@ -600,7 +600,7 @@ public class TaskViewController {
         for (ComboBox<Category> cb : categoryComboBoxes){
             cb.getItems().clear();
             cb.getItems().add(ALL_CATEGORY);
-            for (Category c : taskManager.getCategoryList()){
+            for (Category c : taskService.getCategoryList()){
                 cb.getItems().add(c);
             }
         }
@@ -636,7 +636,7 @@ public class TaskViewController {
 
     private void deleteTask(){
         if (selectedTaskBox != null) {
-            taskManager.deleteTask(selectedTaskBox.getTask());
+            taskService.deleteTask(selectedTaskBox.getTask());
             reloadTasks();
         }
     }
@@ -651,7 +651,7 @@ public class TaskViewController {
     private void handleDeleteCategoryButton(){
         Category category = categoryMenuComboBox.getValue();
         if (category != null){
-            taskManager.deleteCategory(category);
+            taskService.deleteCategory(category);
             reloadCategories();
             reloadTasks();
         }
