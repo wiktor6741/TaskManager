@@ -22,7 +22,7 @@ public class TaskService {
     public TaskService(Connection conn) {
         this.taskDAO = new TaskDAO(conn);
         this.categoryDAO = new CategoryDAO(conn);
-        tasks = taskDAO.getAllTasks();
+        tasks = taskDAO.getActiveTasks();
         for (Category category : categoryDAO.getAllCategories()){
             categories.put(category.getId(), category);
         }
@@ -50,11 +50,18 @@ public class TaskService {
 
     public void getAllTasks(){
         currentViewedCategory = null;
-        tasks = taskDAO.getAllTasks();
+        tasks = taskDAO.getActiveTasks();
     }
 
     public void deleteTask(Task task) {
         taskDAO.deleteTask(task.getId());
+        if (currentViewedCategory == null || task.getCategoryID() == currentViewedCategory.getId()) {
+            tasks.remove(task);
+        }
+    }
+
+    public void completeTask(Task task) {
+        taskDAO.completeTask(task.getId());
         if (currentViewedCategory == null || task.getCategoryID() == currentViewedCategory.getId()) {
             tasks.remove(task);
         }
@@ -138,7 +145,7 @@ public class TaskService {
             return new ValidationResult(false, "Deadline cannot be before goal finish time");
         }
 
-        for (Task t : taskDAO.getAllTasks()){
+        for (Task t : taskDAO.getActiveTasks()){
             if (mode == TASK_EDIT && task.getId() == t.getId()){
                 continue;
             }

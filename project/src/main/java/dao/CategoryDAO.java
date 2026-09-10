@@ -15,16 +15,16 @@ public class CategoryDAO {
 
 
     public List<Category> getAllCategories(){
-        String sql = "SELECT * FROM Categories";
+        String sql = "SELECT * FROM categories WHERE deleted_at IS NULL";
         List<Category> categories = new ArrayList<>();
 
         try (Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)){
 
             while (rs.next()){
-                Category category = new Category(rs.getString("CategoryName"));
-                category.setId(rs.getInt("CategoryID"));
-                category.setDescription(rs.getString("Description"));
+                Category category = new Category(rs.getString("categoryName"));
+                category.setId(rs.getInt("categoryID"));
+                category.setDescription(rs.getString("description"));
                 categories.add(category);
             }
 
@@ -37,8 +37,8 @@ public class CategoryDAO {
 
     public void addCategory(Category category){
         String sql = """
-                        INSERT INTO Categories
-                        (CategoryID, CategoryName, Description)
+                        INSERT INTO categories
+                        (category_id, category_name, description)
                         VALUES (?, ?, ?)
                         """;
 
@@ -64,11 +64,11 @@ public class CategoryDAO {
     public void updateCategory(Category category) {
         System.out.println(category.getName());
         String sql = """
-                UPDATE Categories
+                UPDATE categories
                 SET 
-                    CategoryName = ?,
-                    Description = ?
-                WHERE CategoryID = ?
+                    category_name = ?,
+                    description = ?
+                WHERE category_id = ?
                 """;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -84,8 +84,9 @@ public class CategoryDAO {
 
     public void deleteCategory(int id){
         String sql = """
-                DELETE FROM Categories
-                WHERE CategoryID = ?
+                UPDATE categories
+                SET deleted_at = strftime('%Y-%m-%dT%H:%M:00', 'now')
+                WHERE category_id = ?
                 """;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)){
@@ -98,7 +99,7 @@ public class CategoryDAO {
     }
 
     public void clear(){
-        String sql = "DELETE FROM Categories";
+        String sql = "DELETE FROM categories";
         try (Statement stmt = conn.createStatement()){
             stmt.executeUpdate(sql);
         }catch (Exception e){
