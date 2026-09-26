@@ -22,8 +22,8 @@ public class CategoryDAO {
                 ResultSet rs = stmt.executeQuery(sql)){
 
             while (rs.next()){
-                Category category = new Category(rs.getString("categoryName"));
-                category.setId(rs.getInt("categoryID"));
+                Category category = new Category(rs.getString("category_name"));
+                category.setId(rs.getInt("category_id"));
                 category.setDescription(rs.getString("description"));
                 categories.add(category);
             }
